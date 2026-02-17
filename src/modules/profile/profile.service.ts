@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../common/services/prisma.service';
 import { IStorageService } from '../../common/services/storage/storage.interface';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -27,7 +27,48 @@ export class ProfileService {
     return profile;
   }
 
+  async getDepartments() {
+    return this.prisma.department.findMany({
+      orderBy: { name: 'asc' },
+    });
+  }
+
+  async getDivisions(departmentId: string) {
+    return this.prisma.division.findMany({
+      where: { departmentId },
+      orderBy: { name: 'asc' },
+    });
+  }
+
+  async getSubDivisions(divisionId: string) {
+    return this.prisma.subDivision.findMany({
+      where: { divisionId },
+      orderBy: { name: 'asc' },
+    });
+  }
+
   async updateProfile(userId: string, dto: UpdateProfileDto) {
+    // Validasi Hierarki jika data diubah
+    if (dto.departmentId && dto.divisionId) {
+      const division = await this.prisma.division.findUnique({
+        where: { id: dto.divisionId },
+      });
+
+      if (!division || division.departmentId !== dto.departmentId) {
+        throw new BadRequestException('Divisi yang dipilih tidak terdaftar di departemen tersebut');
+      }
+    }
+
+    if (dto.divisionId && dto.subDivisionId) {
+      const subDivision = await this.prisma.subDivision.findUnique({
+        where: { id: dto.subDivisionId },
+      });
+
+      if (!subDivision || subDivision.divisionId !== dto.divisionId) {
+        throw new BadRequestException('Sub-divisi yang dipilih tidak terdaftar di divisi tersebut');
+      }
+    }
+
     return this.prisma.profile.update({
       where: { userId },
       data: dto,

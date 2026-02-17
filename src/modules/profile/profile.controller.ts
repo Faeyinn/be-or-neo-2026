@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -24,6 +24,24 @@ export class ProfileController {
   @ApiResponse({ status: 404, description: 'Profile not found.' })
   async getMyProfile(@GetUser('id') userId: string) {
     return this.profileService.getProfile(userId);
+  }
+
+  @Get('departments')
+  @ApiOperation({ summary: 'Get all departments' })
+  async getDepartments() {
+    return this.profileService.getDepartments();
+  }
+
+  @Get('divisions/:departmentId')
+  @ApiOperation({ summary: 'Get divisions by department ID' })
+  async getDivisions(@Param('departmentId') departmentId: string) {
+    return this.profileService.getDivisions(departmentId);
+  }
+
+  @Get('sub-divisions/:divisionId')
+  @ApiOperation({ summary: 'Get sub-divisions by division ID' })
+  async getSubDivisions(@Param('divisionId') divisionId: string) {
+    return this.profileService.getSubDivisions(divisionId);
   }
 
   @Patch('me')
