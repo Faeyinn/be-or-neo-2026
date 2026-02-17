@@ -2,7 +2,10 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  Patch,
   Post,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -10,9 +13,13 @@ import {
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 import { GetUser } from '../../common/decorators/get-user.decorator';
 import { VerificationService } from './verification.service';
 import { CreateVerificationDto } from './dto/create-verification.dto';
+import { ReviewVerificationDto } from './dto/review-verification.dto';
+import { UserRole, VerificationStatus } from '../../../prisma/generated-client/client';
 
 @ApiTags('Verification')
 @ApiBearerAuth()
@@ -20,6 +27,26 @@ import { CreateVerificationDto } from './dto/create-verification.dto';
 @Controller('verification')
 export class VerificationController {
   constructor(private readonly verificationService: VerificationService) {}
+
+  @Get('admin/list')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Admin: Get all verification submissions' })
+  async findAll(@Query('status') status?: VerificationStatus) {
+    return this.verificationService.findAll(status);
+  }
+
+  @Patch('admin/review/:id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Admin: Approve or Reject a submission' })
+  async reviewSubmission(
+    @Param('id') id: string,
+    @GetUser('id') adminId: string,
+    @Body() dto: ReviewVerificationDto,
+  ) {
+    return this.verificationService.reviewSubmission(id, adminId, dto);
+  }
 
   @Get('me')
   @ApiOperation({ summary: 'Get current user verification status' })

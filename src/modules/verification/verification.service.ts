@@ -1,7 +1,9 @@
-import { Inject, Injectable, BadRequestException } from '@nestjs/common';
+import { Inject, Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../common/services/prisma.service';
 import { IStorageService } from '../../common/services/storage/storage.interface';
 import { CreateVerificationDto } from './dto/create-verification.dto';
+import { ReviewVerificationDto } from './dto/review-verification.dto';
+import { VerificationStatus } from '../../../prisma/generated-client/client';
 
 @Injectable()
 export class VerificationService {
@@ -9,6 +11,52 @@ export class VerificationService {
     private readonly prisma: PrismaService,
     @Inject('IStorageService') private readonly storageService: IStorageService,
   ) {}
+
+  async findAll(status?: VerificationStatus) {
+    return this.prisma.submissionVerification.findMany({
+      where: status ? { status } : {},
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            profile: {
+              select: {
+                fullName: true,
+                nim: true,
+                subDivision: { select: { name: true } },
+              },
+            },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async reviewSubmission(
+    id: string,
+    adminId: string,
+    dto: ReviewVerificationDto,
+  ) {
+    const verification = await this.prisma.submissionVerification.findUnique({
+      where: { id },
+    });
+
+    if (!verification) {
+      throw new NotFoundException('Verification submission not found');
+    }
+
+    return this.prisma.submissionVerification.update({
+      where: { id },
+      data: {
+        status: dto.status,
+        rejectionReason: dto.rejectionReason,
+        reviewedByAdminId: adminId,
+        reviewedAt: new Date(),
+      },
+    });
+  }
 
   async getMyVerification(userId: string) {
     return this.prisma.submissionVerification.findFirst({
