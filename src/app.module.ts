@@ -7,6 +7,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { VerificationModule } from './modules/verification/verification.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { TimelineModule } from './modules/timeline/timeline.module';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TimelineModule } from './modules/timeline/timeline.module';
     VerificationModule,
     DashboardModule,
     TimelineModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
