@@ -53,6 +53,11 @@ export type Department = Prisma.DepartmentModel
  */
 export type RecruitmentTimeline = Prisma.RecruitmentTimelineModel
 /**
+ * Model Attendance
+ * 
+ */
+export type Attendance = Prisma.AttendanceModel
+/**
  * Model Division
  * 
  */

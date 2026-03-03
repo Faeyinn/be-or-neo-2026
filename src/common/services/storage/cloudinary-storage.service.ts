@@ -31,7 +31,7 @@ export class CloudinaryStorageService implements IStorageService {
               `Cloudinary upload failed: ${error.message}`,
               error.stack,
             );
-            return reject(error);
+            return reject(new Error(error.message));
           }
           if (!result) {
             return reject(new Error('Cloudinary upload returned no result'));
@@ -40,20 +40,16 @@ export class CloudinaryStorageService implements IStorageService {
         },
       );
 
-      streamifier.createReadStream(file.buffer).pipe(uploadStream);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      (streamifier as any).createReadStream(file.buffer).pipe(uploadStream);
     });
   }
 
   async deleteFile(fileUrl: string): Promise<void> {
     try {
-      // Extract public_id from URL
-      // Example: https://res.cloudinary.com/demo/image/upload/v1234567890/folder/my_image.jpg
-      // public_id: folder/my_image
       const splitUrl = fileUrl.split('/');
       const filename = splitUrl.pop()?.split('.')[0];
       const folder = splitUrl.pop();
-      // This is a naive extraction and might need adjustment based on specific folder structure
-      // Ideally, we store the public_id in DB, but requirement says "URL"
 
       if (filename && folder) {
         const publicId = `${folder}/${filename}`;
@@ -64,7 +60,6 @@ export class CloudinaryStorageService implements IStorageService {
         `Failed to delete file from Cloudinary: ${fileUrl}`,
         error,
       );
-      // We don't throw here to avoid blocking main logic if cleanup fails
     }
   }
 }

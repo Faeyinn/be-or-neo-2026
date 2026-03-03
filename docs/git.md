@@ -1,0 +1,1 @@
+git add . ':!.agent' ':!.agents' ':!.agent' ':!.idx' ':!docs' 

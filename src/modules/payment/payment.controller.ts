@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { PaymentService } from './payment.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -16,12 +21,18 @@ export class PaymentController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'User: Create a payment transaction' })
+  @ApiResponse({
+    status: 201,
+    description: 'Transaction successfully created.',
+  })
+  @ApiResponse({ status: 400, description: 'Already paid or payment pending.' })
   async createTransaction(@GetUser('id') userId: string) {
     return this.paymentService.createTransaction(userId);
   }
 
   @Post('webhook')
   @ApiOperation({ summary: 'Public: Midtrans webhook callback' })
+  @ApiResponse({ status: 200, description: 'Webhook processed.' })
   async handleWebhook(@Body() payload: any) {
     return this.paymentService.handleWebhook(payload);
   }
@@ -31,6 +42,7 @@ export class PaymentController {
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Admin: List all payments' })
+  @ApiResponse({ status: 200, description: 'Return all payments.' })
   async findAll() {
     return this.paymentService.findAll();
   }

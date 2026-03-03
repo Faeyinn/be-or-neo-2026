@@ -203,6 +203,7 @@ export type UserWhereInput = {
   payments?: Prisma.PaymentListRelationFilter
   examAttempts?: Prisma.ExamAttemptListRelationFilter
   assignmentSubmissions?: Prisma.AssignmentSubmissionListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
   reviewedVerifications?: Prisma.SubmissionVerificationListRelationFilter
   createdModules?: Prisma.LearningModuleListRelationFilter
   createdAssignments?: Prisma.AssignmentListRelationFilter
@@ -221,6 +222,7 @@ export type UserOrderByWithRelationInput = {
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   examAttempts?: Prisma.ExamAttemptOrderByRelationAggregateInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionOrderByRelationAggregateInput
+  attendances?: Prisma.AttendanceOrderByRelationAggregateInput
   reviewedVerifications?: Prisma.SubmissionVerificationOrderByRelationAggregateInput
   createdModules?: Prisma.LearningModuleOrderByRelationAggregateInput
   createdAssignments?: Prisma.AssignmentOrderByRelationAggregateInput
@@ -242,6 +244,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   examAttempts?: Prisma.ExamAttemptListRelationFilter
   assignmentSubmissions?: Prisma.AssignmentSubmissionListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
   reviewedVerifications?: Prisma.SubmissionVerificationListRelationFilter
   createdModules?: Prisma.LearningModuleListRelationFilter
   createdAssignments?: Prisma.AssignmentListRelationFilter
@@ -286,6 +289,7 @@ export type UserCreateInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
@@ -304,6 +308,7 @@ export type UserUncheckedCreateInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -322,6 +327,7 @@ export type UserUpdateInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
@@ -340,6 +346,7 @@ export type UserUncheckedUpdateInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -429,6 +436,20 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UserCreateNestedOneWithoutAttendancesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAttendancesInput, Prisma.UserUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAttendancesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAttendancesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAttendancesInput, Prisma.UserUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAttendancesInput
+  upsert?: Prisma.UserUpsertWithoutAttendancesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAttendancesInput, Prisma.UserUpdateWithoutAttendancesInput>, Prisma.UserUncheckedUpdateWithoutAttendancesInput>
 }
 
 export type UserCreateNestedOneWithoutProfileInput = {
@@ -545,6 +566,94 @@ export type UserUpdateOneRequiredWithoutAssignmentSubmissionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignmentSubmissionsInput, Prisma.UserUpdateWithoutAssignmentSubmissionsInput>, Prisma.UserUncheckedUpdateWithoutAssignmentSubmissionsInput>
 }
 
+export type UserCreateWithoutAttendancesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  submissionVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
+  assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
+  createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
+  createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
+}
+
+export type UserUncheckedCreateWithoutAttendancesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  submissionVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
+  assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
+  createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
+  createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
+}
+
+export type UserCreateOrConnectWithoutAttendancesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAttendancesInput, Prisma.UserUncheckedCreateWithoutAttendancesInput>
+}
+
+export type UserUpsertWithoutAttendancesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAttendancesInput, Prisma.UserUncheckedUpdateWithoutAttendancesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAttendancesInput, Prisma.UserUncheckedCreateWithoutAttendancesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAttendancesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAttendancesInput, Prisma.UserUncheckedUpdateWithoutAttendancesInput>
+}
+
+export type UserUpdateWithoutAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  submissionVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
+  assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
+  createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
+  createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  submissionVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
+  assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
+  createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+  createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
+}
+
 export type UserCreateWithoutProfileInput = {
   id?: string
   email: string
@@ -557,6 +666,7 @@ export type UserCreateWithoutProfileInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
@@ -574,6 +684,7 @@ export type UserUncheckedCreateWithoutProfileInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -607,6 +718,7 @@ export type UserUpdateWithoutProfileInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
@@ -624,6 +736,7 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -641,6 +754,7 @@ export type UserCreateWithoutSubmissionVerificationsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
@@ -658,6 +772,7 @@ export type UserUncheckedCreateWithoutSubmissionVerificationsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -681,6 +796,7 @@ export type UserCreateWithoutReviewedVerificationsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
 }
@@ -698,6 +814,7 @@ export type UserUncheckedCreateWithoutReviewedVerificationsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
@@ -730,6 +847,7 @@ export type UserUpdateWithoutSubmissionVerificationsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
@@ -747,6 +865,7 @@ export type UserUncheckedUpdateWithoutSubmissionVerificationsInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -776,6 +895,7 @@ export type UserUpdateWithoutReviewedVerificationsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
 }
@@ -793,6 +913,7 @@ export type UserUncheckedUpdateWithoutReviewedVerificationsInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
@@ -809,6 +930,7 @@ export type UserCreateWithoutPaymentsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
@@ -826,6 +948,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -859,6 +982,7 @@ export type UserUpdateWithoutPaymentsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
@@ -876,6 +1000,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -893,6 +1018,7 @@ export type UserCreateWithoutExamAttemptsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
@@ -910,6 +1036,7 @@ export type UserUncheckedCreateWithoutExamAttemptsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -943,6 +1070,7 @@ export type UserUpdateWithoutExamAttemptsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
@@ -960,6 +1088,7 @@ export type UserUncheckedUpdateWithoutExamAttemptsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -978,6 +1107,7 @@ export type UserCreateWithoutCreatedModulesInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
 }
@@ -995,6 +1125,7 @@ export type UserUncheckedCreateWithoutCreatedModulesInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
@@ -1028,6 +1159,7 @@ export type UserUpdateWithoutCreatedModulesInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
 }
@@ -1045,6 +1177,7 @@ export type UserUncheckedUpdateWithoutCreatedModulesInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
@@ -1062,6 +1195,7 @@ export type UserCreateWithoutCreatedAssignmentsInput = {
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
 }
@@ -1079,6 +1213,7 @@ export type UserUncheckedCreateWithoutCreatedAssignmentsInput = {
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
 }
@@ -1112,6 +1247,7 @@ export type UserUpdateWithoutCreatedAssignmentsInput = {
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
 }
@@ -1129,6 +1265,7 @@ export type UserUncheckedUpdateWithoutCreatedAssignmentsInput = {
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
   assignmentSubmissions?: Prisma.AssignmentSubmissionUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
 }
@@ -1145,6 +1282,7 @@ export type UserCreateWithoutAssignmentSubmissionsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentCreateNestedManyWithoutCreatedByAdminInput
@@ -1162,6 +1300,7 @@ export type UserUncheckedCreateWithoutAssignmentSubmissionsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutUserInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutUserInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedCreateNestedManyWithoutReviewedByAdminInput
   createdModules?: Prisma.LearningModuleUncheckedCreateNestedManyWithoutCreatedByAdminInput
   createdAssignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCreatedByAdminInput
@@ -1195,6 +1334,7 @@ export type UserUpdateWithoutAssignmentSubmissionsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUpdateManyWithoutCreatedByAdminNestedInput
@@ -1212,6 +1352,7 @@ export type UserUncheckedUpdateWithoutAssignmentSubmissionsInput = {
   submissionVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutUserNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutUserNestedInput
   reviewedVerifications?: Prisma.SubmissionVerificationUncheckedUpdateManyWithoutReviewedByAdminNestedInput
   createdModules?: Prisma.LearningModuleUncheckedUpdateManyWithoutCreatedByAdminNestedInput
   createdAssignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCreatedByAdminNestedInput
@@ -1227,6 +1368,7 @@ export type UserCountOutputType = {
   payments: number
   examAttempts: number
   assignmentSubmissions: number
+  attendances: number
   reviewedVerifications: number
   createdModules: number
   createdAssignments: number
@@ -1237,6 +1379,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   payments?: boolean | UserCountOutputTypeCountPaymentsArgs
   examAttempts?: boolean | UserCountOutputTypeCountExamAttemptsArgs
   assignmentSubmissions?: boolean | UserCountOutputTypeCountAssignmentSubmissionsArgs
+  attendances?: boolean | UserCountOutputTypeCountAttendancesArgs
   reviewedVerifications?: boolean | UserCountOutputTypeCountReviewedVerificationsArgs
   createdModules?: boolean | UserCountOutputTypeCountCreatedModulesArgs
   createdAssignments?: boolean | UserCountOutputTypeCountCreatedAssignmentsArgs
@@ -1283,6 +1426,13 @@ export type UserCountOutputTypeCountAssignmentSubmissionsArgs<ExtArgs extends ru
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountReviewedVerificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SubmissionVerificationWhereInput
 }
@@ -1315,6 +1465,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   examAttempts?: boolean | Prisma.User$examAttemptsArgs<ExtArgs>
   assignmentSubmissions?: boolean | Prisma.User$assignmentSubmissionsArgs<ExtArgs>
+  attendances?: boolean | Prisma.User$attendancesArgs<ExtArgs>
   reviewedVerifications?: boolean | Prisma.User$reviewedVerificationsArgs<ExtArgs>
   createdModules?: boolean | Prisma.User$createdModulesArgs<ExtArgs>
   createdAssignments?: boolean | Prisma.User$createdAssignmentsArgs<ExtArgs>
@@ -1358,6 +1509,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   examAttempts?: boolean | Prisma.User$examAttemptsArgs<ExtArgs>
   assignmentSubmissions?: boolean | Prisma.User$assignmentSubmissionsArgs<ExtArgs>
+  attendances?: boolean | Prisma.User$attendancesArgs<ExtArgs>
   reviewedVerifications?: boolean | Prisma.User$reviewedVerificationsArgs<ExtArgs>
   createdModules?: boolean | Prisma.User$createdModulesArgs<ExtArgs>
   createdAssignments?: boolean | Prisma.User$createdAssignmentsArgs<ExtArgs>
@@ -1374,6 +1526,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     examAttempts: Prisma.$ExamAttemptPayload<ExtArgs>[]
     assignmentSubmissions: Prisma.$AssignmentSubmissionPayload<ExtArgs>[]
+    attendances: Prisma.$AttendancePayload<ExtArgs>[]
     reviewedVerifications: Prisma.$SubmissionVerificationPayload<ExtArgs>[]
     createdModules: Prisma.$LearningModulePayload<ExtArgs>[]
     createdAssignments: Prisma.$AssignmentPayload<ExtArgs>[]
@@ -1785,6 +1938,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   examAttempts<T extends Prisma.User$examAttemptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$examAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignmentSubmissions<T extends Prisma.User$assignmentSubmissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignmentSubmissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendances<T extends Prisma.User$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewedVerifications<T extends Prisma.User$reviewedVerificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdModules<T extends Prisma.User$createdModulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdModulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LearningModulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdAssignments<T extends Prisma.User$createdAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2324,6 +2478,30 @@ export type User$assignmentSubmissionsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.AssignmentSubmissionScalarFieldEnum | Prisma.AssignmentSubmissionScalarFieldEnum[]
+}
+
+/**
+ * User.attendances
+ */
+export type User$attendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceInclude<ExtArgs> | null
+  where?: Prisma.AttendanceWhereInput
+  orderBy?: Prisma.AttendanceOrderByWithRelationInput | Prisma.AttendanceOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceScalarFieldEnum | Prisma.AttendanceScalarFieldEnum[]
 }
 
 /**

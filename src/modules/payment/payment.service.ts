@@ -1,20 +1,20 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../common/services/prisma.service';
-import { PaymentStatus, PaymentProvider } from '../../../prisma/generated-client/client';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+import {
+  PaymentStatus,
+  PaymentProvider,
+} from '../../../prisma/generated-client/client';
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
 const midtransClient = require('midtrans-client');
 
 @Injectable()
 export class PaymentService {
   private readonly logger = new Logger(PaymentService.name);
+
   private readonly snap: any;
 
   constructor(private readonly prisma: PrismaService) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
     this.snap = new midtransClient.Snap({
       isProduction: process.env.MIDTRANS_IS_PRODUCTION === 'true',
       serverKey: process.env.MIDTRANS_SERVER_KEY,
@@ -91,6 +91,7 @@ export class PaymentService {
     };
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
       const transaction = await this.snap.createTransaction(parameter);
 
       // 4. Save to database
@@ -101,8 +102,10 @@ export class PaymentService {
           provider: PaymentProvider.MIDTRANS,
           amount,
           status: PaymentStatus.PENDING,
-          paymentUrl: transaction.redirect_url,
-          externalPaymentId: transaction.token,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          paymentUrl: transaction.redirect_url as string,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          externalPaymentId: transaction.token as string,
         },
       });
 
@@ -118,16 +121,19 @@ export class PaymentService {
   }
 
   async handleWebhook(payload: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { order_id, transaction_status, fraud_status } = payload;
 
-    this.logger.log(`Received Midtrans webhook: ${order_id} - ${transaction_status}`);
+    this.logger.log(
+      `Received Midtrans webhook: ${order_id as string} - ${transaction_status as string}`,
+    );
 
     const payment = await this.prisma.payment.findUnique({
-      where: { id: order_id },
+      where: { id: order_id as string },
     });
 
     if (!payment) {
-      this.logger.warn(`Payment with order_id ${order_id} not found`);
+      this.logger.warn(`Payment with order_id ${order_id as string} not found`);
       return;
     }
 
@@ -152,7 +158,7 @@ export class PaymentService {
     }
 
     return this.prisma.payment.update({
-      where: { id: order_id },
+      where: { id: order_id as string },
       data: {
         status,
         paidAt: status === PaymentStatus.PAID ? new Date() : null,

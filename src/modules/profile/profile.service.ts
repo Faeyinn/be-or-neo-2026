@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../common/services/prisma.service';
 import { IStorageService } from '../../common/services/storage/storage.interface';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -55,7 +60,9 @@ export class ProfileService {
       });
 
       if (!division || division.departmentId !== dto.departmentId) {
-        throw new BadRequestException('Divisi yang dipilih tidak terdaftar di departemen tersebut');
+        throw new BadRequestException(
+          'Divisi yang dipilih tidak terdaftar di departemen tersebut',
+        );
       }
     }
 
@@ -65,7 +72,9 @@ export class ProfileService {
       });
 
       if (!subDivision || subDivision.divisionId !== dto.divisionId) {
-        throw new BadRequestException('Sub-divisi yang dipilih tidak terdaftar di divisi tersebut');
+        throw new BadRequestException(
+          'Sub-divisi yang dipilih tidak terdaftar di divisi tersebut',
+        );
       }
     }
 
@@ -76,8 +85,11 @@ export class ProfileService {
   }
 
   async updateAvatar(userId: string, file: Express.Multer.File) {
-    const avatarUrl = await this.storageService.uploadFile(file, 'profiles/avatars');
-    
+    const avatarUrl = await this.storageService.uploadFile(
+      file,
+      'profiles/avatars',
+    );
+
     return this.prisma.profile.update({
       where: { userId },
       data: { avatarUrl },

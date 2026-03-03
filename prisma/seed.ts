@@ -1,7 +1,8 @@
 import { PrismaPg } from '@prisma/adapter-pg';
 import 'dotenv/config';
 import { Pool } from 'pg';
-import { PrismaClient } from './generated-client/client';
+import * as bcrypt from 'bcrypt';
+import { PrismaClient, UserRole } from './generated-client/client';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -96,6 +97,45 @@ async function main() {
       create: { divisionId: skj.id, name },
     });
   }
+
+  // 7. Users
+  const passwordHash = await bcrypt.hash('password!', 10);
+
+  // Admin User
+  await prisma.user.upsert({
+    where: { email: 'adminneo@gmail.com' },
+    update: {},
+    create: {
+      email: 'adminneo@gmail.com',
+      passwordHash,
+      role: UserRole.ADMIN,
+      profile: {
+        create: {
+          fullName: 'Admin Neo Telemetri',
+          nim: 'ADMIN001',
+          whatsappNumber: '081234567890',
+        },
+      },
+    },
+  });
+
+  // Regular User
+  await prisma.user.upsert({
+    where: { email: 'userneo@gmail.com' },
+    update: {},
+    create: {
+      email: 'userneo@gmail.com',
+      passwordHash,
+      role: UserRole.USER,
+      profile: {
+        create: {
+          fullName: 'Regular User',
+          nim: 'USER001',
+          whatsappNumber: '081234567891',
+        },
+      },
+    },
+  });
 
   console.log('Seeding finished.');
 }

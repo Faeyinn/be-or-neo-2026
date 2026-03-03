@@ -41,6 +41,7 @@ export type RecruitmentTimelineMinAggregateOutputType = {
   startAt: Date | null
   endAt: Date | null
   orderIndex: number | null
+  attendancePasscode: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type RecruitmentTimelineMaxAggregateOutputType = {
   startAt: Date | null
   endAt: Date | null
   orderIndex: number | null
+  attendancePasscode: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,6 +65,7 @@ export type RecruitmentTimelineCountAggregateOutputType = {
   startAt: number
   endAt: number
   orderIndex: number
+  attendancePasscode: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -84,6 +87,7 @@ export type RecruitmentTimelineMinAggregateInputType = {
   startAt?: true
   endAt?: true
   orderIndex?: true
+  attendancePasscode?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -95,6 +99,7 @@ export type RecruitmentTimelineMaxAggregateInputType = {
   startAt?: true
   endAt?: true
   orderIndex?: true
+  attendancePasscode?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +111,7 @@ export type RecruitmentTimelineCountAggregateInputType = {
   startAt?: true
   endAt?: true
   orderIndex?: true
+  attendancePasscode?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -204,6 +210,7 @@ export type RecruitmentTimelineGroupByOutputType = {
   startAt: Date
   endAt: Date
   orderIndex: number
+  attendancePasscode: string | null
   createdAt: Date
   updatedAt: Date
   _count: RecruitmentTimelineCountAggregateOutputType | null
@@ -238,8 +245,10 @@ export type RecruitmentTimelineWhereInput = {
   startAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
   endAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
   orderIndex?: Prisma.IntFilter<"RecruitmentTimeline"> | number
+  attendancePasscode?: Prisma.StringNullableFilter<"RecruitmentTimeline"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
+  attendances?: Prisma.AttendanceListRelationFilter
 }
 
 export type RecruitmentTimelineOrderByWithRelationInput = {
@@ -249,8 +258,10 @@ export type RecruitmentTimelineOrderByWithRelationInput = {
   startAt?: Prisma.SortOrder
   endAt?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
+  attendancePasscode?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  attendances?: Prisma.AttendanceOrderByRelationAggregateInput
 }
 
 export type RecruitmentTimelineWhereUniqueInput = Prisma.AtLeast<{
@@ -263,8 +274,10 @@ export type RecruitmentTimelineWhereUniqueInput = Prisma.AtLeast<{
   startAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
   endAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
   orderIndex?: Prisma.IntFilter<"RecruitmentTimeline"> | number
+  attendancePasscode?: Prisma.StringNullableFilter<"RecruitmentTimeline"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RecruitmentTimeline"> | Date | string
+  attendances?: Prisma.AttendanceListRelationFilter
 }, "id">
 
 export type RecruitmentTimelineOrderByWithAggregationInput = {
@@ -274,6 +287,7 @@ export type RecruitmentTimelineOrderByWithAggregationInput = {
   startAt?: Prisma.SortOrder
   endAt?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
+  attendancePasscode?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RecruitmentTimelineCountOrderByAggregateInput
@@ -293,6 +307,7 @@ export type RecruitmentTimelineScalarWhereWithAggregatesInput = {
   startAt?: Prisma.DateTimeWithAggregatesFilter<"RecruitmentTimeline"> | Date | string
   endAt?: Prisma.DateTimeWithAggregatesFilter<"RecruitmentTimeline"> | Date | string
   orderIndex?: Prisma.IntWithAggregatesFilter<"RecruitmentTimeline"> | number
+  attendancePasscode?: Prisma.StringNullableWithAggregatesFilter<"RecruitmentTimeline"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RecruitmentTimeline"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"RecruitmentTimeline"> | Date | string
 }
@@ -304,8 +319,10 @@ export type RecruitmentTimelineCreateInput = {
   startAt: Date | string
   endAt: Date | string
   orderIndex: number
+  attendancePasscode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTimelineInput
 }
 
 export type RecruitmentTimelineUncheckedCreateInput = {
@@ -315,8 +332,10 @@ export type RecruitmentTimelineUncheckedCreateInput = {
   startAt: Date | string
   endAt: Date | string
   orderIndex: number
+  attendancePasscode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTimelineInput
 }
 
 export type RecruitmentTimelineUpdateInput = {
@@ -326,8 +345,10 @@ export type RecruitmentTimelineUpdateInput = {
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  attendancePasscode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendances?: Prisma.AttendanceUpdateManyWithoutTimelineNestedInput
 }
 
 export type RecruitmentTimelineUncheckedUpdateInput = {
@@ -337,8 +358,10 @@ export type RecruitmentTimelineUncheckedUpdateInput = {
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  attendancePasscode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTimelineNestedInput
 }
 
 export type RecruitmentTimelineCreateManyInput = {
@@ -348,6 +371,7 @@ export type RecruitmentTimelineCreateManyInput = {
   startAt: Date | string
   endAt: Date | string
   orderIndex: number
+  attendancePasscode?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -359,6 +383,7 @@ export type RecruitmentTimelineUpdateManyMutationInput = {
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  attendancePasscode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,6 +395,7 @@ export type RecruitmentTimelineUncheckedUpdateManyInput = {
   startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  attendancePasscode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -381,6 +407,7 @@ export type RecruitmentTimelineCountOrderByAggregateInput = {
   startAt?: Prisma.SortOrder
   endAt?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
+  attendancePasscode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -396,6 +423,7 @@ export type RecruitmentTimelineMaxOrderByAggregateInput = {
   startAt?: Prisma.SortOrder
   endAt?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
+  attendancePasscode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -407,12 +435,18 @@ export type RecruitmentTimelineMinOrderByAggregateInput = {
   startAt?: Prisma.SortOrder
   endAt?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
+  attendancePasscode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type RecruitmentTimelineSumOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
+}
+
+export type RecruitmentTimelineScalarRelationFilter = {
+  is?: Prisma.RecruitmentTimelineWhereInput
+  isNot?: Prisma.RecruitmentTimelineWhereInput
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -427,6 +461,113 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type RecruitmentTimelineCreateNestedOneWithoutAttendancesInput = {
+  create?: Prisma.XOR<Prisma.RecruitmentTimelineCreateWithoutAttendancesInput, Prisma.RecruitmentTimelineUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.RecruitmentTimelineCreateOrConnectWithoutAttendancesInput
+  connect?: Prisma.RecruitmentTimelineWhereUniqueInput
+}
+
+export type RecruitmentTimelineUpdateOneRequiredWithoutAttendancesNestedInput = {
+  create?: Prisma.XOR<Prisma.RecruitmentTimelineCreateWithoutAttendancesInput, Prisma.RecruitmentTimelineUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.RecruitmentTimelineCreateOrConnectWithoutAttendancesInput
+  upsert?: Prisma.RecruitmentTimelineUpsertWithoutAttendancesInput
+  connect?: Prisma.RecruitmentTimelineWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RecruitmentTimelineUpdateToOneWithWhereWithoutAttendancesInput, Prisma.RecruitmentTimelineUpdateWithoutAttendancesInput>, Prisma.RecruitmentTimelineUncheckedUpdateWithoutAttendancesInput>
+}
+
+export type RecruitmentTimelineCreateWithoutAttendancesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  startAt: Date | string
+  endAt: Date | string
+  orderIndex: number
+  attendancePasscode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RecruitmentTimelineUncheckedCreateWithoutAttendancesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  startAt: Date | string
+  endAt: Date | string
+  orderIndex: number
+  attendancePasscode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RecruitmentTimelineCreateOrConnectWithoutAttendancesInput = {
+  where: Prisma.RecruitmentTimelineWhereUniqueInput
+  create: Prisma.XOR<Prisma.RecruitmentTimelineCreateWithoutAttendancesInput, Prisma.RecruitmentTimelineUncheckedCreateWithoutAttendancesInput>
+}
+
+export type RecruitmentTimelineUpsertWithoutAttendancesInput = {
+  update: Prisma.XOR<Prisma.RecruitmentTimelineUpdateWithoutAttendancesInput, Prisma.RecruitmentTimelineUncheckedUpdateWithoutAttendancesInput>
+  create: Prisma.XOR<Prisma.RecruitmentTimelineCreateWithoutAttendancesInput, Prisma.RecruitmentTimelineUncheckedCreateWithoutAttendancesInput>
+  where?: Prisma.RecruitmentTimelineWhereInput
+}
+
+export type RecruitmentTimelineUpdateToOneWithWhereWithoutAttendancesInput = {
+  where?: Prisma.RecruitmentTimelineWhereInput
+  data: Prisma.XOR<Prisma.RecruitmentTimelineUpdateWithoutAttendancesInput, Prisma.RecruitmentTimelineUncheckedUpdateWithoutAttendancesInput>
+}
+
+export type RecruitmentTimelineUpdateWithoutAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  attendancePasscode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RecruitmentTimelineUncheckedUpdateWithoutAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  attendancePasscode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type RecruitmentTimelineCountOutputType
+ */
+
+export type RecruitmentTimelineCountOutputType = {
+  attendances: number
+}
+
+export type RecruitmentTimelineCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  attendances?: boolean | RecruitmentTimelineCountOutputTypeCountAttendancesArgs
+}
+
+/**
+ * RecruitmentTimelineCountOutputType without action
+ */
+export type RecruitmentTimelineCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecruitmentTimelineCountOutputType
+   */
+  select?: Prisma.RecruitmentTimelineCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RecruitmentTimelineCountOutputType without action
+ */
+export type RecruitmentTimelineCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceWhereInput
+}
 
 
 export type RecruitmentTimelineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -436,8 +577,11 @@ export type RecruitmentTimelineSelect<ExtArgs extends runtime.Types.Extensions.I
   startAt?: boolean
   endAt?: boolean
   orderIndex?: boolean
+  attendancePasscode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  attendances?: boolean | Prisma.RecruitmentTimeline$attendancesArgs<ExtArgs>
+  _count?: boolean | Prisma.RecruitmentTimelineCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["recruitmentTimeline"]>
 
 export type RecruitmentTimelineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -447,6 +591,7 @@ export type RecruitmentTimelineSelectCreateManyAndReturn<ExtArgs extends runtime
   startAt?: boolean
   endAt?: boolean
   orderIndex?: boolean
+  attendancePasscode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["recruitmentTimeline"]>
@@ -458,6 +603,7 @@ export type RecruitmentTimelineSelectUpdateManyAndReturn<ExtArgs extends runtime
   startAt?: boolean
   endAt?: boolean
   orderIndex?: boolean
+  attendancePasscode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["recruitmentTimeline"]>
@@ -469,15 +615,24 @@ export type RecruitmentTimelineSelectScalar = {
   startAt?: boolean
   endAt?: boolean
   orderIndex?: boolean
+  attendancePasscode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RecruitmentTimelineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "startAt" | "endAt" | "orderIndex" | "createdAt" | "updatedAt", ExtArgs["result"]["recruitmentTimeline"]>
+export type RecruitmentTimelineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "startAt" | "endAt" | "orderIndex" | "attendancePasscode" | "createdAt" | "updatedAt", ExtArgs["result"]["recruitmentTimeline"]>
+export type RecruitmentTimelineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  attendances?: boolean | Prisma.RecruitmentTimeline$attendancesArgs<ExtArgs>
+  _count?: boolean | Prisma.RecruitmentTimelineCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type RecruitmentTimelineIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type RecruitmentTimelineIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $RecruitmentTimelinePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RecruitmentTimeline"
-  objects: {}
+  objects: {
+    attendances: Prisma.$AttendancePayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
@@ -485,6 +640,7 @@ export type $RecruitmentTimelinePayload<ExtArgs extends runtime.Types.Extensions
     startAt: Date
     endAt: Date
     orderIndex: number
+    attendancePasscode: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["recruitmentTimeline"]>
@@ -881,6 +1037,7 @@ readonly fields: RecruitmentTimelineFieldRefs;
  */
 export interface Prisma__RecruitmentTimelineClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  attendances<T extends Prisma.RecruitmentTimeline$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RecruitmentTimeline$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -916,6 +1073,7 @@ export interface RecruitmentTimelineFieldRefs {
   readonly startAt: Prisma.FieldRef<"RecruitmentTimeline", 'DateTime'>
   readonly endAt: Prisma.FieldRef<"RecruitmentTimeline", 'DateTime'>
   readonly orderIndex: Prisma.FieldRef<"RecruitmentTimeline", 'Int'>
+  readonly attendancePasscode: Prisma.FieldRef<"RecruitmentTimeline", 'String'>
   readonly createdAt: Prisma.FieldRef<"RecruitmentTimeline", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"RecruitmentTimeline", 'DateTime'>
 }
@@ -935,6 +1093,10 @@ export type RecruitmentTimelineFindUniqueArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
+  /**
    * Filter, which RecruitmentTimeline to fetch.
    */
   where: Prisma.RecruitmentTimelineWhereUniqueInput
@@ -953,6 +1115,10 @@ export type RecruitmentTimelineFindUniqueOrThrowArgs<ExtArgs extends runtime.Typ
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
+  /**
    * Filter, which RecruitmentTimeline to fetch.
    */
   where: Prisma.RecruitmentTimelineWhereUniqueInput
@@ -970,6 +1136,10 @@ export type RecruitmentTimelineFindFirstArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the RecruitmentTimeline
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
   /**
    * Filter, which RecruitmentTimeline to fetch.
    */
@@ -1019,6 +1189,10 @@ export type RecruitmentTimelineFindFirstOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
+  /**
    * Filter, which RecruitmentTimeline to fetch.
    */
   where?: Prisma.RecruitmentTimelineWhereInput
@@ -1067,6 +1241,10 @@ export type RecruitmentTimelineFindManyArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
+  /**
    * Filter, which RecruitmentTimelines to fetch.
    */
   where?: Prisma.RecruitmentTimelineWhereInput
@@ -1109,6 +1287,10 @@ export type RecruitmentTimelineCreateArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the RecruitmentTimeline
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
   /**
    * The data needed to create a RecruitmentTimeline.
    */
@@ -1157,6 +1339,10 @@ export type RecruitmentTimelineUpdateArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the RecruitmentTimeline
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
   /**
    * The data needed to update a RecruitmentTimeline.
    */
@@ -1224,6 +1410,10 @@ export type RecruitmentTimelineUpsertArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
+  /**
    * The filter to search for the RecruitmentTimeline to update in case it exists.
    */
   where: Prisma.RecruitmentTimelineWhereUniqueInput
@@ -1250,6 +1440,10 @@ export type RecruitmentTimelineDeleteArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
+  /**
    * Filter which RecruitmentTimeline to delete.
    */
   where: Prisma.RecruitmentTimelineWhereUniqueInput
@@ -1270,6 +1464,30 @@ export type RecruitmentTimelineDeleteManyArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
+ * RecruitmentTimeline.attendances
+ */
+export type RecruitmentTimeline$attendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceInclude<ExtArgs> | null
+  where?: Prisma.AttendanceWhereInput
+  orderBy?: Prisma.AttendanceOrderByWithRelationInput | Prisma.AttendanceOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceScalarFieldEnum | Prisma.AttendanceScalarFieldEnum[]
+}
+
+/**
  * RecruitmentTimeline without action
  */
 export type RecruitmentTimelineDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1281,4 +1499,8 @@ export type RecruitmentTimelineDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the RecruitmentTimeline
    */
   omit?: Prisma.RecruitmentTimelineOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecruitmentTimelineInclude<ExtArgs> | null
 }

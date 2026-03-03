@@ -56,6 +56,15 @@ enum AttemptStatus {
   @@map("attempt_status")
 }
 
+enum AttendanceStatus {
+  PRESENT
+  LATE
+  EXCUSED
+  ABSENT
+
+  @@map("attendance_status")
+}
+
 model User {
   id           String   @id @default(uuid())
   email        String   @unique @db.VarChar(255)
@@ -70,6 +79,7 @@ model User {
   payments              Payment[]
   examAttempts          ExamAttempt[]
   assignmentSubmissions AssignmentSubmission[]
+  attendances           Attendance[]
   reviewedVerifications SubmissionVerification[] @relation("ReviewedByAdmin")
   createdModules        LearningModule[]         @relation("CreatedByAdmin")
   createdAssignments    Assignment[]             @relation("CreatedByAdmin")
@@ -90,16 +100,36 @@ model Department {
 }
 
 model RecruitmentTimeline {
-  id          String   @id @default(uuid())
-  title       String   @db.VarChar(255)
-  description String?  @db.Text
-  startAt     DateTime @map("start_at")
-  endAt       DateTime @map("end_at")
-  orderIndex  Int      @map("order_index")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  id                 String   @id @default(uuid())
+  title              String   @db.VarChar(255)
+  description        String?  @db.Text
+  startAt            DateTime @map("start_at")
+  endAt              DateTime @map("end_at")
+  orderIndex         Int      @map("order_index")
+  attendancePasscode String?  @map("attendance_passcode") @db.VarChar(50)
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @default(now()) @updatedAt @map("updated_at")
+
+  attendances Attendance[]
 
   @@map("recruitment_timelines")
+}
+
+model Attendance {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  timelineId  String           @map("timeline_id")
+  checkInTime DateTime         @default(now()) @map("check_in_time")
+  status      AttendanceStatus @default(PRESENT)
+  notes       String?          @db.Text
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @default(now()) @updatedAt @map("updated_at")
+
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timeline RecruitmentTimeline @relation(fields: [timelineId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, timelineId])
+  @@map("attendances")
 }
 
 model Division {

@@ -49,7 +49,9 @@ describe('TimelineService', () => {
     it('should return all timelines', async () => {
       const result = await service.findAll();
       expect(result).toEqual([mockTimeline]);
-      expect(prisma.recruitmentTimeline.findMany).toHaveBeenCalled();
+      expect(
+        prisma.recruitmentTimeline.findMany.bind(prisma.recruitmentTimeline),
+      ).toHaveBeenCalled();
     });
   });
 
@@ -60,7 +62,9 @@ describe('TimelineService', () => {
     });
 
     it('should throw NotFoundException if not found', async () => {
-      jest.spyOn(prisma.recruitmentTimeline, 'findUnique').mockResolvedValueOnce(null);
+      jest
+        .spyOn(prisma.recruitmentTimeline, 'findUnique')
+        .mockResolvedValueOnce(null);
       await expect(service.findOne('999')).rejects.toThrow(NotFoundException);
     });
   });
@@ -75,7 +79,9 @@ describe('TimelineService', () => {
       };
       const result = await service.create(dto);
       expect(result).toBeDefined();
-      expect(prisma.recruitmentTimeline.create).toHaveBeenCalled();
+      expect(
+        prisma.recruitmentTimeline.create.bind(prisma.recruitmentTimeline),
+      ).toHaveBeenCalled();
     });
   });
 });

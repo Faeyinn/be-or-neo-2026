@@ -65,14 +65,16 @@ export class DashboardService {
       {
         step: 2,
         title: 'Verifikasi Berkas',
-        description: 'Upload dokumen yang diperlukan untuk verifikasi pendaftaran.',
+        description:
+          'Upload dokumen yang diperlukan untuk verifikasi pendaftaran.',
         isCompleted: verificationStatus === 'APPROVED',
         status: verificationStatus,
       },
       {
         step: 3,
         title: 'Pembayaran',
-        description: 'Lakukan pembayaran biaya pendaftaran untuk melanjutkan ke tahap ujian.',
+        description:
+          'Lakukan pembayaran biaya pendaftaran untuk melanjutkan ke tahap ujian.',
         isCompleted: paymentStatus === 'PAID',
         status: paymentStatus,
       },

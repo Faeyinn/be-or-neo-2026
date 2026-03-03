@@ -42,16 +42,35 @@
 - `PATCH /api/timelines/:id`: Update timeline (Admin Only).
 - `DELETE /api/timelines/:id`: Hapus timeline (Admin Only).
 
+#### **Absensi (Attendance Module)**
+- `POST /api/attendance/check-in`: Scan QR Code untuk absensi (User).
+- `GET /api/attendance/me`: Lihat riwayat kehadiran pribadi (User).
+- `POST /api/attendance/passcode`: Generate/Set passcode QR untuk event (Admin).
+- `GET /api/attendance/timeline/:timelineId`: Rekapitulasi absensi per event, otomatis mendeteksi status ABSENT bagi yang tidak scan (Admin).
+- `PATCH /api/attendance/:id`: Update status kehadiran manual (Admin).
+
+#### **Pembayaran (Payment Module)**
+- `POST /api/payments/create`: Pembuatan transaksi pembayaran pendaftaran via **Midtrans Snap**.
+- `POST /api/payments/webhook`: Penanganan notifikasi status pembayaran otomatis dari Midtrans.
+- `GET /api/payments/admin/list`: Monitoring semua transaksi pembayaran (Admin).
+
+#### **Verifikasi Admin (Verification Module)**
+- `GET /api/verification/admin/list`: List semua pendaftar untuk direview.
+- `PATCH /api/verification/admin/review/:id`: Menyetujui (Approve) atau menolak (Reject) pendaftaran dengan alasan.
+
 #### **Testing (Unit & E2E)**
-- **Unit Testing**: Suite untuk `DashboardService` dan `TimelineService` (Passed).
-- **E2E Testing**: Integrasi test untuk alur Dashboard dan validasi keamanan RBAC (Passed).
+- **Unit Testing**: Suite lengkap untuk `DashboardService`, `TimelineService`, `PaymentService`, `AttendanceService`, dan `AppController` (Passed).
+- **E2E Testing**: Integrasi test untuk alur Dashboard, Auth, Profile, Verification, Attendance, dan Payment, serta validasi keamanan RBAC (Passed).
+
+### 4. Pemeliharaan & Dokumentasi
+- **Migration Cleanup**: Melakukan squash migrasi lama menjadi satu file `init` (20260301000000_init) untuk membersihkan history database.
+- **Update Dokumentasi**: Sinkronisasi `data-model.md` dan `or-neo-2026.sql` dengan status terbaru `schema.prisma`.
 
 ---
 
 ## 🚧 Belum Dikerjakan (To Do)
 
 ### 1. Fitur User (Pendaftar)
-- [x] **Pembayaran**: Integrasi **Midtrans Snap** untuk biaya pendaftaran. Mendukung pembuatan transaksi dan penanganan status otomatis via Webhook.
 - [ ] **Ujian (Exam)**:
     - [ ] List ujian tersedia per subdivisi.
     - [ ] Sistem pengerjaan (Timer & Auto-submit).
@@ -61,7 +80,6 @@
     - [ ] Submit tugas subdivisi.
 
 ### 2. Fitur Admin
-- [x] **Verifikasi Pendaftar**: Panel untuk Approve/Reject dokumen verifikasi. Mendukung filter status dan pencatatan alasan penolakan.
 - [ ] **Manajemen Konten**:
     - [ ] CRUD Departemen/Divisi/Subdivisi (Saat ini baru Timeline).
 - [ ] **Manajemen Akademik**:
@@ -71,4 +89,4 @@
 
 ---
 
-_Dokumen ini diperbarui oleh AI Agent pada 17 Februari 2026._
+_Dokumen ini diperbarui oleh AI Agent pada 1 Maret 2026._

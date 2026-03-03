@@ -8,6 +8,12 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { TimelineService } from './timeline.service';
 import { CreateTimelineDto } from './dto/create-timeline.dto';
 import { UpdateTimelineDto } from './timeline.service'; // We exported it there
@@ -16,16 +22,22 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { UserRole } from '../../../prisma/generated-client/client';
 
+@ApiTags('Timeline')
 @Controller('timelines')
 export class TimelineController {
   constructor(private readonly timelineService: TimelineService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Public: Get all recruitment timeline events' })
+  @ApiResponse({ status: 200, description: 'Return all timeline events.' })
   findAll() {
     return this.timelineService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Public: Get a recruitment timeline event by ID' })
+  @ApiResponse({ status: 200, description: 'Return the timeline event.' })
+  @ApiResponse({ status: 404, description: 'Timeline event not found.' })
   findOne(@Param('id') id: string) {
     return this.timelineService.findOne(id);
   }
@@ -33,6 +45,12 @@ export class TimelineController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Admin: Create a new recruitment timeline event' })
+  @ApiResponse({
+    status: 201,
+    description: 'Timeline event successfully created.',
+  })
   create(@Body() createTimelineDto: CreateTimelineDto) {
     return this.timelineService.create(createTimelineDto);
   }
@@ -40,6 +58,13 @@ export class TimelineController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Admin: Update a recruitment timeline event' })
+  @ApiResponse({
+    status: 200,
+    description: 'Timeline event successfully updated.',
+  })
+  @ApiResponse({ status: 404, description: 'Timeline event not found.' })
   update(
     @Param('id') id: string,
     @Body() updateTimelineDto: UpdateTimelineDto,
@@ -50,6 +75,13 @@ export class TimelineController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Admin: Delete a recruitment timeline event' })
+  @ApiResponse({
+    status: 200,
+    description: 'Timeline event successfully deleted.',
+  })
+  @ApiResponse({ status: 404, description: 'Timeline event not found.' })
   remove(@Param('id') id: string) {
     return this.timelineService.remove(id);
   }

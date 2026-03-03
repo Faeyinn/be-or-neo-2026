@@ -8,6 +8,8 @@ import { VerificationModule } from './modules/verification/verification.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { TimelineModule } from './modules/timeline/timeline.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { AttendanceModule } from './modules/attendance/attendance.module';
+import { ExamModule } from './modules/exam/exam.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { PaymentModule } from './modules/payment/payment.module';
     DashboardModule,
     TimelineModule,
     PaymentModule,
+    AttendanceModule,
+    ExamModule,
   ],
   controllers: [AppController],
   providers: [AppService],

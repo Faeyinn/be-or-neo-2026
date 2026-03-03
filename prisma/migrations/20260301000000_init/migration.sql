@@ -16,6 +16,9 @@ CREATE TYPE "exam_type" AS ENUM ('MCQ', 'TRUE_FALSE', 'SHORT_TEXT');
 -- CreateEnum
 CREATE TYPE "attempt_status" AS ENUM ('IN_PROGRESS', 'SUBMITTED', 'TIMEOUT');
 
+-- CreateEnum
+CREATE TYPE "attendance_status" AS ENUM ('PRESENT', 'LATE', 'EXCUSED', 'ABSENT');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -47,10 +50,25 @@ CREATE TABLE "recruitment_timelines" (
     "start_at" TIMESTAMP(3) NOT NULL,
     "end_at" TIMESTAMP(3) NOT NULL,
     "order_index" INTEGER NOT NULL,
+    "attendance_passcode" VARCHAR(50),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "recruitment_timelines_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "attendances" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "timeline_id" TEXT NOT NULL,
+    "check_in_time" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "status" "attendance_status" NOT NULL DEFAULT 'PRESENT',
+    "notes" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "attendances_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -87,6 +105,7 @@ CREATE TABLE "profiles" (
     "department_id" TEXT,
     "division_id" TEXT,
     "sub_division_id" TEXT,
+    "avatar_url" TEXT,
     "rejection_reason" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -255,6 +274,9 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "departments_name_key" ON "departments"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "attendances_user_id_timeline_id_key" ON "attendances"("user_id", "timeline_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "divisions_department_id_name_key" ON "divisions"("department_id", "name");
 
 -- CreateIndex
@@ -265,6 +287,12 @@ CREATE UNIQUE INDEX "profiles_user_id_key" ON "profiles"("user_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "profiles_nim_key" ON "profiles"("nim");
+
+-- AddForeignKey
+ALTER TABLE "attendances" ADD CONSTRAINT "attendances_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "attendances" ADD CONSTRAINT "attendances_timeline_id_fkey" FOREIGN KEY ("timeline_id") REFERENCES "recruitment_timelines"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "divisions" ADD CONSTRAINT "divisions_department_id_fkey" FOREIGN KEY ("department_id") REFERENCES "departments"("id") ON DELETE CASCADE ON UPDATE CASCADE;

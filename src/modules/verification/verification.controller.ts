@@ -11,7 +11,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -19,7 +25,10 @@ import { GetUser } from '../../common/decorators/get-user.decorator';
 import { VerificationService } from './verification.service';
 import { CreateVerificationDto } from './dto/create-verification.dto';
 import { ReviewVerificationDto } from './dto/review-verification.dto';
-import { UserRole, VerificationStatus } from '../../../prisma/generated-client/client';
+import {
+  UserRole,
+  VerificationStatus,
+} from '../../../prisma/generated-client/client';
 
 @ApiTags('Verification')
 @ApiBearerAuth()
@@ -32,6 +41,7 @@ export class VerificationController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Admin: Get all verification submissions' })
+  @ApiResponse({ status: 200, description: 'Return list of submissions.' })
   async findAll(@Query('status') status?: VerificationStatus) {
     return this.verificationService.findAll(status);
   }
@@ -40,6 +50,11 @@ export class VerificationController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Admin: Approve or Reject a submission' })
+  @ApiResponse({
+    status: 200,
+    description: 'Submission successfully reviewed.',
+  })
+  @ApiResponse({ status: 404, description: 'Submission not found.' })
   async reviewSubmission(
     @Param('id') id: string,
     @GetUser('id') adminId: string,
@@ -50,7 +65,10 @@ export class VerificationController {
 
   @Get('me')
   @ApiOperation({ summary: 'Get current user verification status' })
-  @ApiResponse({ status: 200, description: 'Return current user verification data.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return current user verification data.',
+  })
   async getMyVerification(@GetUser('id') userId: string) {
     return this.verificationService.getMyVerification(userId);
   }
@@ -58,7 +76,10 @@ export class VerificationController {
   @Post('submit')
   @ApiOperation({ summary: 'Submit or update verification documents' })
   @ApiConsumes('multipart/form-data')
-  @ApiResponse({ status: 201, description: 'Verification documents successfully submitted.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Verification documents successfully submitted.',
+  })
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'krsScan', maxCount: 1 },

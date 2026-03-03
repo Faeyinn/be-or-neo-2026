@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
@@ -23,39 +25,49 @@ describe('Dashboard & Timeline (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     app.setGlobalPrefix('api');
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+    app.useGlobalPipes(
+      new ValidationPipe({ whitelist: true, transform: true }),
+    );
     await app.init();
 
     prisma = app.get<PrismaService>(PrismaService);
 
     // Create User
-    await request(app.getHttpServer()).post('/api/auth/register').send({
-      email: userEmail,
-      password,
-      fullName: 'Regular User',
-      nim: `NIM-${Date.now()}-U`,
-    });
-    const userLogin = await request(app.getHttpServer()).post('/api/auth/login').send({
-      email: userEmail,
-      password,
-    });
+    await request(app.getHttpServer())
+      .post('/api/auth/register')
+      .send({
+        email: userEmail,
+        password,
+        fullName: 'Regular User',
+        nim: `NIM-${Date.now()}-U`,
+      });
+    const userLogin = await request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({
+        email: userEmail,
+        password,
+      });
     userToken = userLogin.body.access_token;
 
     // Create Admin
-    await request(app.getHttpServer()).post('/api/auth/register').send({
-      email: adminEmail,
-      password,
-      fullName: 'Admin User',
-      nim: `NIM-${Date.now()}-A`,
-    });
-    const adminUser = await prisma.user.update({
+    await request(app.getHttpServer())
+      .post('/api/auth/register')
+      .send({
+        email: adminEmail,
+        password,
+        fullName: 'Admin User',
+        nim: `NIM-${Date.now()}-A`,
+      });
+    await prisma.user.update({
       where: { email: adminEmail },
       data: { role: 'ADMIN' },
     });
-    const adminLogin = await request(app.getHttpServer()).post('/api/auth/login').send({
-      email: adminEmail,
-      password,
-    });
+    const adminLogin = await request(app.getHttpServer())
+      .post('/api/auth/login')
+      .send({
+        email: adminEmail,
+        password,
+      });
     adminToken = adminLogin.body.access_token;
   });
 

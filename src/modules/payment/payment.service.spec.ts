@@ -52,7 +52,9 @@ describe('PaymentService', () => {
   describe('createTransaction', () => {
     it('should throw BadRequest if user has no profile', async () => {
       mockPrismaService.user.findUnique.mockResolvedValue(null);
-      await expect(service.createTransaction('user-1')).rejects.toThrow(BadRequestException);
+      await expect(service.createTransaction('user-1')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw BadRequest if verification is not approved', async () => {
@@ -61,7 +63,9 @@ describe('PaymentService', () => {
         profile: { fullName: 'Test' },
         submissionVerifications: [{ status: 'PENDING' }],
       });
-      await expect(service.createTransaction('user-1')).rejects.toThrow(BadRequestException);
+      await expect(service.createTransaction('user-1')).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should create a transaction if all requirements met', async () => {
@@ -80,21 +84,24 @@ describe('PaymentService', () => {
 
       const result = await service.createTransaction('user-1');
       expect(result.paymentUrl).toBe('http://mock-redirect.url');
-      expect(prisma.payment.create).toHaveBeenCalled();
+      expect(prisma.payment.create.bind(prisma.payment)).toHaveBeenCalled();
     });
   });
 
   describe('handleWebhook', () => {
     it('should update status to PAID on settlement', async () => {
-      const payload = {
+      const payload: any = {
         order_id: 'ORDER-1',
         transaction_status: 'settlement',
       };
-      mockPrismaService.payment.findUnique.mockResolvedValue({ id: 'ORDER-1', status: 'PENDING' });
-      
+      mockPrismaService.payment.findUnique.mockResolvedValue({
+        id: 'ORDER-1',
+        status: 'PENDING',
+      });
+
       await service.handleWebhook(payload);
-      
-      expect(prisma.payment.update).toHaveBeenCalledWith({
+
+      expect(prisma.payment.update.bind(prisma.payment)).toHaveBeenCalledWith({
         where: { id: 'ORDER-1' },
         data: expect.objectContaining({ status: PaymentStatus.PAID }),
       });

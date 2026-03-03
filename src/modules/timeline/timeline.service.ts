@@ -35,7 +35,7 @@ export class TimelineService {
 
   async update(id: string, dto: UpdateTimelineDto) {
     await this.findOne(id);
-    const data: any = { ...dto };
+    const data: Record<string, any> = { ...dto };
     if (dto.startAt) data.startAt = new Date(dto.startAt);
     if (dto.endAt) data.endAt = new Date(dto.endAt);
 

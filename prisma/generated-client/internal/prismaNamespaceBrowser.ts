@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Department: 'Department',
   RecruitmentTimeline: 'RecruitmentTimeline',
+  Attendance: 'Attendance',
   Division: 'Division',
   SubDivision: 'SubDivision',
   Profile: 'Profile',
@@ -115,11 +116,26 @@ export const RecruitmentTimelineScalarFieldEnum = {
   startAt: 'startAt',
   endAt: 'endAt',
   orderIndex: 'orderIndex',
+  attendancePasscode: 'attendancePasscode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type RecruitmentTimelineScalarFieldEnum = (typeof RecruitmentTimelineScalarFieldEnum)[keyof typeof RecruitmentTimelineScalarFieldEnum]
+
+
+export const AttendanceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  timelineId: 'timelineId',
+  checkInTime: 'checkInTime',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
 
 
 export const DivisionScalarFieldEnum = {

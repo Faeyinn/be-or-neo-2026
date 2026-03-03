@@ -59,7 +59,7 @@ export class AuthService {
         const { passwordHash: _, ...result } = user;
         return result;
       });
-    } catch (error) {
+    } catch {
       throw new InternalServerErrorException('Failed to register user');
     }
   }
