@@ -55,6 +55,10 @@ export class DashboardService {
       }
     }
 
+    const examAttempt = await this.prisma.examAttempt.findFirst({
+      where: { userId, status: 'SUBMITTED' },
+    });
+
     const steps = [
       {
         step: 1,
@@ -82,7 +86,8 @@ export class DashboardService {
         step: 4,
         title: 'Ujian Seleksi',
         description: 'Kerjakan ujian sesuai subdivisi yang kamu pilih.',
-        isCompleted: false, // Will be checked when exam module is implemented
+        isCompleted: !!examAttempt,
+        status: examAttempt ? 'COMPLETED' : 'PENDING',
       },
     ];
 
@@ -103,6 +108,55 @@ export class DashboardService {
       steps,
       timeline,
       nextTimelineEvent,
+    };
+  }
+
+  async getAdminStats() {
+    const totalUsers = await this.prisma.user.count({
+      where: { role: 'USER' },
+    });
+
+    const verificationStats = await this.prisma.submissionVerification.groupBy({
+      by: ['status'],
+      _count: {
+        _all: true,
+      },
+    });
+
+    const paymentStats = await this.prisma.payment.groupBy({
+      by: ['status'],
+      _count: {
+        _all: true,
+      },
+    });
+
+    // SubDivision Distribution
+    const subDivisions = await this.prisma.subDivision.findMany({
+      include: {
+        _count: {
+          select: { profiles: true },
+        },
+      },
+    });
+
+    const subDivisionDistribution = subDivisions.map((sd) => ({
+      name: sd.name,
+      applicantCount: sd._count.profiles,
+    }));
+
+    return {
+      overview: {
+        totalRegistrants: totalUsers,
+      },
+      verifications: verificationStats.map((s) => ({
+        status: s.status,
+        count: s._count._all,
+      })),
+      payments: paymentStats.map((s) => ({
+        status: s.status,
+        count: s._count._all,
+      })),
+      distribution: subDivisionDistribution,
     };
   }
 }

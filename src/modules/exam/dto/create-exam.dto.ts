@@ -39,7 +39,9 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   prompt: string;
 
-  @ApiPropertyOptional({ description: 'The correct answer for short text questions' })
+  @ApiPropertyOptional({
+    description: 'The correct answer for short text questions',
+  })
   @IsOptional()
   @IsString()
   correctTextAnswer?: string;
@@ -54,7 +56,10 @@ export class CreateQuestionDto {
   @Min(0)
   orderIndex: number;
 
-  @ApiPropertyOptional({ type: [ChoiceDto], description: 'Choices for MCQ or True/False' })
+  @ApiPropertyOptional({
+    type: [ChoiceDto],
+    description: 'Choices for MCQ or True/False',
+  })
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ChoiceDto)
@@ -97,12 +102,18 @@ export class CreateExamDto {
   @IsString()
   endAt?: string;
 
-  @ApiPropertyOptional({ description: 'Whether the exam is active', default: true })
+  @ApiPropertyOptional({
+    description: 'Whether the exam is active',
+    default: true,
+  })
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
 
-  @ApiPropertyOptional({ type: [CreateQuestionDto], description: 'List of questions for this exam' })
+  @ApiPropertyOptional({
+    type: [CreateQuestionDto],
+    description: 'List of questions for this exam',
+  })
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => CreateQuestionDto)

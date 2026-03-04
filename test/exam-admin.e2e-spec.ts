@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
@@ -40,9 +46,15 @@ describe('Exam Admin (e2e)', () => {
     adminToken = loginRes.body.access_token;
 
     // Setup SubDivision
-    const dept = await prisma.department.create({ data: { name: `Dept ${Date.now()}` } });
-    const div = await prisma.division.create({ data: { departmentId: dept.id, name: `Div ${Date.now()}` } });
-    const subDiv = await prisma.subDivision.create({ data: { divisionId: div.id, name: `SubDiv ${Date.now()}` } });
+    const dept = await prisma.department.create({
+      data: { name: `Dept ${Date.now()}` },
+    });
+    const div = await prisma.division.create({
+      data: { departmentId: dept.id, name: `Div ${Date.now()}` },
+    });
+    const subDiv = await prisma.subDivision.create({
+      data: { divisionId: div.id, name: `SubDiv ${Date.now()}` },
+    });
     subDivisionId = subDiv.id;
   });
 

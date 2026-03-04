@@ -11,8 +11,8 @@ describe('AttendanceService', () => {
     id: 'timeline-1',
     title: 'Test Event',
     attendancePasscode: 'PASS123',
-    startAt: new Date(Date.now() - 3600000), // 1 hour ago
-    endAt: new Date(Date.now() + 3600000), // 1 hour later
+    startAt: new Date(Date.now() - 3600000),
+    endAt: new Date(Date.now() + 3600000),
   };
 
   const mockPrismaService = {

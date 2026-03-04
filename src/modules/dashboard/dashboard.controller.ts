@@ -7,7 +7,10 @@ import {
 } from '@nestjs/swagger';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 import { GetUser } from '../../common/decorators/get-user.decorator';
+import { UserRole } from '../../../prisma/generated-client/client';
 
 @ApiTags('Dashboard')
 @ApiBearerAuth()
@@ -24,5 +27,17 @@ export class DashboardController {
   })
   async getMyDashboard(@GetUser('id') userId: string) {
     return this.dashboardService.getMyDashboard(userId);
+  }
+
+  @Get('admin/stats')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Admin: Get recruitment statistics and monitoring' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return global recruitment statistics.',
+  })
+  async getAdminStats() {
+    return this.dashboardService.getAdminStats();
   }
 }

@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
@@ -87,7 +91,6 @@ describe('Verification Admin (e2e)', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .expect(200)
       .expect((res) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const found = res.body.find((s: any) => s.id === submissionId);
         expect(found).toBeDefined();
       });

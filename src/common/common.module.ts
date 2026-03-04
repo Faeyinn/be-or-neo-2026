@@ -9,8 +9,9 @@ import { PrismaService } from './services/prisma.service';
       provide: 'IStorageService',
       useClass: CloudinaryStorageService,
     },
+    CloudinaryStorageService,
     PrismaService,
   ],
-  exports: ['IStorageService', PrismaService],
+  exports: ['IStorageService', CloudinaryStorageService, PrismaService],
 })
 export class CommonModule {}

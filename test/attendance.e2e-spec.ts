@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Test, TestingModule } from '@nestjs/testing';
@@ -137,7 +141,7 @@ describe('Attendance (e2e)', () => {
         .expect(200);
 
       expect(Array.isArray(response.body)).toBe(true);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
       const userAtt = response.body.find((u: any) => u.userId === userId);
 
       expect(userAtt.status).toBe('PRESENT');

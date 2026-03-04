@@ -10,6 +10,9 @@ import { TimelineModule } from './modules/timeline/timeline.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { AttendanceModule } from './modules/attendance/attendance.module';
 import { ExamModule } from './modules/exam/exam.module';
+import { LearningModuleModule } from './modules/learning-module/learning-module.module';
+import { AssignmentModule } from './modules/assignment/assignment.module';
+import { MasterDataModule } from './modules/master-data/master-data.module';
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { ExamModule } from './modules/exam/exam.module';
     PaymentModule,
     AttendanceModule,
     ExamModule,
+    LearningModuleModule,
+    AssignmentModule,
+    MasterDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],
