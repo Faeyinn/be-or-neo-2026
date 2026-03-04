@@ -16,6 +16,8 @@ import {
   ApiConsumes,
   ApiOperation,
   ApiTags,
+  ApiResponse,
+  ApiBody,
 } from '@nestjs/swagger';
 import { AssignmentService } from './assignment.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
@@ -27,9 +29,9 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { GetUser } from '../../common/decorators/get-user.decorator';
 import { UserRole } from '../../../prisma/generated-client/client';
 
-@ApiTags('Academy: Assignments')
+@ApiTags('Assignment')
+@ApiBearerAuth('JWT-auth')
 @Controller('assignments')
-@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class AssignmentController {
   constructor(private readonly assignmentService: AssignmentService) {}
@@ -39,7 +41,14 @@ export class AssignmentController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Admin: Create new assignment' })
+  @ApiOperation({ summary: 'Create new assignment' })
+  @ApiResponse({ status: 201, description: 'Assignment successfully created' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
   create(@Body() dto: CreateAssignmentDto, @GetUser('id') adminId: string) {
     return this.assignmentService.create(dto, adminId);
   }
@@ -48,6 +57,11 @@ export class AssignmentController {
   @ApiOperation({
     summary: 'Get all assignments (Admin) or by subdivision (User)',
   })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignments successfully retrieved',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(@GetUser('id') userId: string, @GetUser('role') role: UserRole) {
     if (role === UserRole.ADMIN) {
       return this.assignmentService.findAll();
@@ -56,6 +70,13 @@ export class AssignmentController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get a single assignment' })
+  @ApiResponse({
+    status: 200,
+    description: 'Assignment successfully retrieved',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
   findOne(@Param('id') id: string) {
     return this.assignmentService.findOne(id);
   }
@@ -63,6 +84,15 @@ export class AssignmentController {
   @Patch(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Update assignment' })
+  @ApiResponse({ status: 200, description: 'Assignment successfully updated' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
   update(@Param('id') id: string, @Body() dto: UpdateAssignmentDto) {
     return this.assignmentService.update(id, dto);
   }
@@ -70,6 +100,14 @@ export class AssignmentController {
   @Delete(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Delete assignment' })
+  @ApiResponse({ status: 200, description: 'Assignment successfully deleted' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
   remove(@Param('id') id: string) {
     return this.assignmentService.remove(id);
   }
@@ -78,7 +116,27 @@ export class AssignmentController {
 
   @Post(':id/submit')
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'User: Submit assignment' })
+  @ApiOperation({ summary: 'Submit assignment' })
+  @ApiResponse({
+    status: 201,
+    description: 'Assignment successfully submitted',
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'The assignment submission file',
+        },
+      },
+      required: ['file'],
+    },
+  })
   @UseInterceptors(FileInterceptor('file'))
   submit(
     @Param('id') id: string,
@@ -91,7 +149,17 @@ export class AssignmentController {
   @Get(':id/submissions')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Admin: Get all submissions for an assignment' })
+  @ApiOperation({ summary: 'Get all submissions for an assignment' })
+  @ApiResponse({
+    status: 200,
+    description: 'Submissions successfully retrieved',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
   getSubmissions(@Param('id') id: string) {
     return this.assignmentService.getSubmissions(id);
   }
@@ -99,7 +167,15 @@ export class AssignmentController {
   @Patch('submissions/:submissionId/score')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Admin: Score a submission' })
+  @ApiOperation({ summary: 'Score a submission' })
+  @ApiResponse({ status: 200, description: 'Submission successfully scored' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Submission not found' })
   scoreSubmission(
     @Param('submissionId') submissionId: string,
     @Body() dto: ScoreSubmissionDto,

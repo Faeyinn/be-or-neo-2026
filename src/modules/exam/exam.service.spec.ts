@@ -137,15 +137,15 @@ describe('ExamService', () => {
       };
 
       const result = await service.submitAttempt(attemptId, userId, dto);
-      expect(prisma.examAttempt.update).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({
-          data: expect.objectContaining({
-            correctCount: 2,
-            score: 100,
-          }),
+      expect(prisma.examAttempt.update).toHaveBeenCalledWith({
+        where: { id: attemptId },
+        data: expect.objectContaining({
+          correctCount: 2,
+          wrongCount: 0,
+          score: 100,
+          status: 'SUBMITTED',
         }),
-      );
+      });
     });
   });
 });

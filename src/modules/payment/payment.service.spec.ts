@@ -84,7 +84,7 @@ describe('PaymentService', () => {
 
       const result = await service.createTransaction('user-1');
       expect(result.paymentUrl).toBe('http://mock-redirect.url');
-      expect(prisma.payment.create.bind(prisma.payment)).toHaveBeenCalled();
+      expect(prisma.payment.create).toHaveBeenCalled();
     });
   });
 
@@ -101,7 +101,7 @@ describe('PaymentService', () => {
 
       await service.handleWebhook(payload);
 
-      expect(prisma.payment.update.bind(prisma.payment)).toHaveBeenCalledWith({
+      expect(prisma.payment.update).toHaveBeenCalledWith({
         where: { id: 'ORDER-1' },
         data: expect.objectContaining({ status: PaymentStatus.PAID }),
       });

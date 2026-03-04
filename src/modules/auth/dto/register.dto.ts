@@ -5,6 +5,7 @@ export class RegisterDto {
   @ApiProperty({
     example: 'user@example.com',
     description: 'The email of the user',
+    format: 'email',
   })
   @IsEmail()
   @IsNotEmpty()

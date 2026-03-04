@@ -49,9 +49,7 @@ describe('TimelineService', () => {
     it('should return all timelines', async () => {
       const result = await service.findAll();
       expect(result).toEqual([mockTimeline]);
-      expect(
-        prisma.recruitmentTimeline.findMany.bind(prisma.recruitmentTimeline),
-      ).toHaveBeenCalled();
+      expect(prisma.recruitmentTimeline.findMany).toHaveBeenCalled();
     });
   });
 
@@ -79,9 +77,7 @@ describe('TimelineService', () => {
       };
       const result = await service.create(dto);
       expect(result).toBeDefined();
-      expect(
-        prisma.recruitmentTimeline.create.bind(prisma.recruitmentTimeline),
-      ).toHaveBeenCalled();
+      expect(prisma.recruitmentTimeline.create).toHaveBeenCalled();
     });
   });
 });

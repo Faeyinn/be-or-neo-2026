@@ -23,7 +23,8 @@ import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @ApiTags('Profile')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
+@ApiResponse({ status: 401, description: 'Unauthorized' })
 @UseGuards(JwtAuthGuard)
 @Controller('profile')
 export class ProfileController {
@@ -32,7 +33,7 @@ export class ProfileController {
   @Get('me')
   @ApiOperation({ summary: 'Get current user profile' })
   @ApiResponse({ status: 200, description: 'Return current user profile.' })
-  @ApiResponse({ status: 404, description: 'Profile not found.' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   async getMyProfile(@GetUser('id') userId: string) {
     return this.profileService.getProfile(userId);
   }
@@ -50,6 +51,7 @@ export class ProfileController {
     status: 200,
     description: 'Return divisions for the department.',
   })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   async getDivisions(@Param('departmentId') departmentId: string) {
     return this.profileService.getDivisions(departmentId);
   }
@@ -60,6 +62,7 @@ export class ProfileController {
     status: 200,
     description: 'Return sub-divisions for the division.',
   })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   async getSubDivisions(@Param('divisionId') divisionId: string) {
     return this.profileService.getSubDivisions(divisionId);
   }
@@ -67,6 +70,7 @@ export class ProfileController {
   @Patch('me')
   @ApiOperation({ summary: 'Update current user profile' })
   @ApiResponse({ status: 200, description: 'Profile successfully updated.' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   async updateMyProfile(
     @GetUser('id') userId: string,
     @Body() dto: UpdateProfileDto,
@@ -78,6 +82,7 @@ export class ProfileController {
   @ApiOperation({ summary: 'Update profile avatar' })
   @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 201, description: 'Avatar successfully uploaded.' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @UseInterceptors(FileInterceptor('avatar'))
   async uploadAvatar(
     @GetUser('id') userId: string,

@@ -120,9 +120,7 @@ describe('AttendanceService', () => {
 
       const result = await service.checkIn(userId, dto);
       expect(result).toBeDefined();
-      expect(
-        prisma.attendance.upsert.bind(prisma.attendance),
-      ).toHaveBeenCalled();
+      expect(prisma.attendance.upsert).toHaveBeenCalled();
     });
   });
 
@@ -138,9 +136,7 @@ describe('AttendanceService', () => {
 
       const result = await service.setPasscode('timeline-1', 'NEWPASS');
       expect(result.attendancePasscode).toBe('NEWPASS');
-      expect(
-        prisma.recruitmentTimeline.update.bind(prisma.recruitmentTimeline),
-      ).toHaveBeenCalledWith({
+      expect(prisma.recruitmentTimeline.update).toHaveBeenCalledWith({
         where: { id: 'timeline-1' },
         data: { attendancePasscode: 'NEWPASS' },
       });

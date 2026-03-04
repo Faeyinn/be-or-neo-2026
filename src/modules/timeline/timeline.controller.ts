@@ -37,7 +37,7 @@ export class TimelineController {
   @Get(':id')
   @ApiOperation({ summary: 'Public: Get a recruitment timeline event by ID' })
   @ApiResponse({ status: 200, description: 'Return the timeline event.' })
-  @ApiResponse({ status: 404, description: 'Timeline event not found.' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   findOne(@Param('id') id: string) {
     return this.timelineService.findOne(id);
   }
@@ -45,11 +45,17 @@ export class TimelineController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Admin: Create a new recruitment timeline event' })
   @ApiResponse({
     status: 201,
     description: 'Timeline event successfully created.',
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
   })
   create(@Body() createTimelineDto: CreateTimelineDto) {
     return this.timelineService.create(createTimelineDto);
@@ -58,13 +64,19 @@ export class TimelineController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Admin: Update a recruitment timeline event' })
   @ApiResponse({
     status: 200,
     description: 'Timeline event successfully updated.',
   })
-  @ApiResponse({ status: 404, description: 'Timeline event not found.' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   update(
     @Param('id') id: string,
     @Body() updateTimelineDto: UpdateTimelineDto,
@@ -75,13 +87,18 @@ export class TimelineController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Admin: Delete a recruitment timeline event' })
   @ApiResponse({
     status: 200,
     description: 'Timeline event successfully deleted.',
   })
-  @ApiResponse({ status: 404, description: 'Timeline event not found.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   remove(@Param('id') id: string) {
     return this.timelineService.remove(id);
   }

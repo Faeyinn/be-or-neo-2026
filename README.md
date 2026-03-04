@@ -1,98 +1,176 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="https://neotelemetri.id/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Neo Telemetri Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1 align="center">Open Recruitment Neo Telemetri 2026 API</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  Sistem backend lengkap untuk proses Open Recruitment Neo Telemetri 2026, dibangun menggunakan <b>NestJS</b>, <b>Prisma ORM</b>, dan <b>PostgreSQL</b>.
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<p align="center">
+  <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen" alt="Node Version" />
+  <img src="https://img.shields.io/badge/pnpm-%3E%3D8.0.0-blue" alt="pnpm Version" />
+  <img src="https://img.shields.io/badge/nestjs-11.x-red" alt="NestJS Version" />
+  <img src="https://img.shields.io/badge/prisma-7.x-0c344b" alt="Prisma Version" />
+  <img src="https://img.shields.io/badge/license-UNLICENSED-lightgrey" alt="License" />
+</p>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🚀 Overview
+
+Repositori ini berisi API backend untuk mengelola seluruh *recruitment lifecycle* Neo Telemetri 2026. Sistem ini menangani berbagai proses mulai dari *user registration*, *document verification*, *online exam*, *assignment management*, hingga *payment processing*.
+
+## ✨ Key Features
+
+- **🔐 Authentication & Authorization**: Keamanan berbasis JWT dengan *Role-Based Access Control* (RBAC) untuk Admin dan User.
+- **👤 Profile Management**: Pengelolaan data profil pengguna yang komprehensif, mencakup data akademik dan preferensi sub-divisi.
+- **📊 Recruitment Dashboard**: Pelacakan progres pendaftaran secara *real-time* untuk pendaftar dan administrator.
+- **📅 Timeline Management**: Pengelolaan dinamis tahapan rekrutmen dan *deadline* proses.
+- **📂 Master Data**: Pengaturan hierarkis untuk Departemen, Divisi, dan Sub-divisi.
+- **📚 Learning Modules**: Akses sumber daya edukasi dan materi yang dibatasi berdasarkan *user progress*.
+- **📝 Online Exam System**: Platform ujian otomatis yang mendukung tipe soal MCQ, True/False, dan Short Text dengan *auto-scoring*.
+- **📤 Assignment Management**: Distribusi tugas, pelacakan *submission*, dan sistem penilaian.
+- **💳 Payment Integration**: Pemrosesan biaya pendaftaran secara otomatis melalui Payment Gateway **Midtrans**.
+- **✅ Verification System**: Alur verifikasi administratif untuk dokumen persyaratan dan pengumpulan tugas.
+- **🕒 Attendance Tracking**: Sistem absensi berbasis kode QR dan *passcode* untuk kegiatan rekrutmen.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [NestJS](https://nestjs.com/) (v11+)
+- **ORM**: [Prisma](https://www.prisma.io/) (v7+)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **Documentation**: [Swagger / OpenAPI 3.0](https://swagger.io/)
+- **Payment Gateway**: [Midtrans](https://midtrans.com/)
+- **Storage**: [Cloudinary](https://cloudinary.com/) (untuk *file upload* dokumen dan foto)
+- **Validation**: [Class Validator](https://github.com/typestack/class-validator) & [Class Transformer](https://github.com/typestack/class-transformer)
+
+---
+
+## ⚙️ Project Setup
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (>= 18.x)
+- [pnpm](https://pnpm.io/) (>= 8.x)
+- Instance database [PostgreSQL](https://www.postgresql.org/)
+
+### 1. Installation
 
 ```bash
+# Clone the repository
+$ git clone https://github.com/neo-telemetri/be-or-neo-2026.git
+$ cd be-or-neo-2026
+
+# Install dependencies
 $ pnpm install
 ```
 
-## Compile and run the project
+### 2. Environment Configuration
+
+Buat file `.env` di direktori root dan konfigurasi variabel berikut:
+
+```env
+# Application
+PORT=3000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
+
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname?schema=public"
+
+# Authentication
+JWT_SECRET=your_super_secret_jwt_key
+
+# Cloudinary Storage
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# Midtrans Payment
+MIDTRANS_IS_PRODUCTION=false
+MIDTRANS_SERVER_KEY=your_server_key
+MIDTRANS_CLIENT_KEY=your_client_key
+```
+
+### 3. Database Setup
 
 ```bash
-# development
-$ pnpm run start
+# Run database migrations
+$ npx prisma migrate dev
 
-# watch mode
+# Seed database dengan data awal
+$ npx prisma db seed
+```
+
+---
+
+## 🏃 Running the App
+
+```bash
+# Mode development
 $ pnpm run start:dev
 
-# production mode
+# Mode produksi
+$ pnpm run build
 $ pnpm run start:prod
 ```
 
-## Run tests
+Setelah berjalan, API dapat diakses di `http://localhost:3000/api`.
+
+---
+
+## 📚 API Documentation
+
+Proyek ini menggunakan Swagger untuk menyediakan dokumentasi API yang interaktif. Anda dapat mengakses *endpoint* dan melakukan pengujian melalui:
+
+👉 **[http://localhost:3000/docs](http://localhost:3000/docs)**
+
+Dokumentasi mencakup detail *request body*, *response schema*, dan persyaratan autentikasi untuk setiap *endpoint*.
+
+---
+
+## 🧪 Testing
 
 ```bash
-# unit tests
+# Unit tests
 $ pnpm run test
 
-# e2e tests
+# E2E tests
 $ pnpm run test:e2e
 
-# test coverage
+# Test coverage
 $ pnpm run test:cov
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📁 Project Structure
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+```text
+src/
+├── common/           # Shared guards, decorators, services, dan pipes
+├── modules/          # Feature-based modules
+│   ├── auth/         # Authentication & Authorization
+│   ├── profile/      # User profile management
+│   ├── master-data/  # Departments, Divisions, Sub-divisions
+│   ├── exam/         # Online examination logic
+│   ├── assignment/   # Task submissions & grading
+│   ├── payment/      # Midtrans integration
+│   └── ...           # Modul fitur lainnya
+├── app.module.ts     # Main application module
+└── main.ts           # Application entry point
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 📝 License
 
-Check out a few resources that may come in handy when working with NestJS:
+Proyek ini berstatus **UNLICENSED**. Seluruh hak cipta dilindungi.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+<p align="center">
+  Made with ❤️ by <b>Neo Telemetri IT Team</b>
+</p>

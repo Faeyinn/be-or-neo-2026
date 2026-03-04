@@ -16,6 +16,7 @@ import {
   ApiConsumes,
   ApiOperation,
   ApiTags,
+  ApiResponse,
 } from '@nestjs/swagger';
 import { LearningModuleService } from './learning-module.service';
 import { CreateLearningModuleDto } from './dto/create-learning-module.dto';
@@ -26,9 +27,9 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { GetUser } from '../../common/decorators/get-user.decorator';
 import { UserRole } from '../../../prisma/generated-client/client';
 
-@ApiTags('Academy: Learning Modules')
+@ApiTags('Learning Module')
+@ApiBearerAuth('JWT-auth')
 @Controller('learning-modules')
-@ApiBearerAuth()
 export class LearningModuleController {
   constructor(private readonly learningModuleService: LearningModuleService) {}
 
@@ -36,7 +37,17 @@ export class LearningModuleController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Admin: Create new learning module' })
+  @ApiOperation({ summary: 'Create new learning module' })
+  @ApiResponse({
+    status: 201,
+    description: 'Learning module successfully created',
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
   @UseInterceptors(FileInterceptor('file'))
   create(
     @Body() dto: CreateLearningModuleDto,
@@ -49,6 +60,8 @@ export class LearningModuleController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all modules (Admin) or by subdivision (User)' })
+  @ApiResponse({ status: 200, description: 'Modules successfully retrieved' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(@GetUser('id') userId: string, @GetUser('role') role: UserRole) {
     if (role === UserRole.ADMIN) {
       return this.learningModuleService.findAll();
@@ -58,6 +71,10 @@ export class LearningModuleController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get a single module' })
+  @ApiResponse({ status: 200, description: 'Module successfully retrieved' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Module not found' })
   findOne(@Param('id') id: string) {
     return this.learningModuleService.findOne(id);
   }
@@ -66,6 +83,18 @@ export class LearningModuleController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Update learning module' })
+  @ApiResponse({
+    status: 200,
+    description: 'Learning module successfully updated',
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Learning module not found' })
   @UseInterceptors(FileInterceptor('file'))
   update(
     @Param('id') id: string,
@@ -78,6 +107,17 @@ export class LearningModuleController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Delete learning module' })
+  @ApiResponse({
+    status: 200,
+    description: 'Learning module successfully deleted',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({ status: 404, description: 'Learning module not found' })
   remove(@Param('id') id: string) {
     return this.learningModuleService.remove(id);
   }

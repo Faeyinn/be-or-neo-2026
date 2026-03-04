@@ -31,7 +31,7 @@ import {
 } from '../../../prisma/generated-client/client';
 
 @ApiTags('Verification')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
 @UseGuards(JwtAuthGuard)
 @Controller('verification')
 export class VerificationController {
@@ -41,7 +41,9 @@ export class VerificationController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Admin: Get all verification submissions' })
-  @ApiResponse({ status: 200, description: 'Return list of submissions.' })
+  @ApiResponse({ status: 200, description: 'Return list of submissions' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Forbidden - Insufficient permissions' })
   async findAll(@Query('status') status?: VerificationStatus) {
     return this.verificationService.findAll(status);
   }
@@ -52,9 +54,12 @@ export class VerificationController {
   @ApiOperation({ summary: 'Admin: Approve or Reject a submission' })
   @ApiResponse({
     status: 200,
-    description: 'Submission successfully reviewed.',
+    description: 'Submission successfully reviewed',
   })
-  @ApiResponse({ status: 404, description: 'Submission not found.' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Forbidden - Insufficient permissions' })
+  @ApiResponse({ status: 404, description: 'Not Found - Submission not found' })
   async reviewSubmission(
     @Param('id') id: string,
     @GetUser('id') adminId: string,
@@ -67,8 +72,9 @@ export class VerificationController {
   @ApiOperation({ summary: 'Get current user verification status' })
   @ApiResponse({
     status: 200,
-    description: 'Return current user verification data.',
+    description: 'Return current user verification data',
   })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getMyVerification(@GetUser('id') userId: string) {
     return this.verificationService.getMyVerification(userId);
   }
@@ -78,8 +84,10 @@ export class VerificationController {
   @ApiConsumes('multipart/form-data')
   @ApiResponse({
     status: 201,
-    description: 'Verification documents successfully submitted.',
+    description: 'Verification documents successfully submitted',
   })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'krsScan', maxCount: 1 },

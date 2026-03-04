@@ -3,8 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CheckInDto {
   @ApiProperty({
-    example: 'uuid-timeline-event',
+    example: '550e8400-e29b-41d4-a716-446655440000',
     description: 'The ID of the recruitment timeline event',
+    format: 'uuid',
   })
   @IsNotEmpty()
   @IsUUID()
@@ -12,7 +13,7 @@ export class CheckInDto {
 
   @ApiProperty({
     example: 'TOKEN123',
-    description: 'The passcode from the scanned QR Code',
+    description: 'The passcode extracted from the scanned QR code',
   })
   @IsNotEmpty()
   @IsString()

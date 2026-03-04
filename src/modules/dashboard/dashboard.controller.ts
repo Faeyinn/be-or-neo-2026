@@ -13,7 +13,8 @@ import { GetUser } from '../../common/decorators/get-user.decorator';
 import { UserRole } from '../../../prisma/generated-client/client';
 
 @ApiTags('Dashboard')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT-auth')
+@ApiResponse({ status: 401, description: 'Unauthorized' })
 @Controller('dashboard')
 @UseGuards(JwtAuthGuard)
 export class DashboardController {
@@ -36,6 +37,10 @@ export class DashboardController {
   @ApiResponse({
     status: 200,
     description: 'Return global recruitment statistics.',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
   })
   async getAdminStats() {
     return this.dashboardService.getAdminStats();

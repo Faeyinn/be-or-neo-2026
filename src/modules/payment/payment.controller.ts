@@ -19,20 +19,22 @@ export class PaymentController {
 
   @Post('create')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'User: Create a payment transaction' })
   @ApiResponse({
     status: 201,
-    description: 'Transaction successfully created.',
+    description: 'Transaction successfully created',
   })
-  @ApiResponse({ status: 400, description: 'Already paid or payment pending.' })
+  @ApiResponse({ status: 400, description: 'Bad Request - Already paid or payment pending' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   async createTransaction(@GetUser('id') userId: string) {
     return this.paymentService.createTransaction(userId);
   }
 
   @Post('webhook')
   @ApiOperation({ summary: 'Public: Midtrans webhook callback' })
-  @ApiResponse({ status: 200, description: 'Webhook processed.' })
+  @ApiResponse({ status: 200, description: 'Webhook processed' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   async handleWebhook(@Body() payload: any) {
     return this.paymentService.handleWebhook(payload);
   }
@@ -40,9 +42,11 @@ export class PaymentController {
   @Get('admin/list')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Admin: List all payments' })
-  @ApiResponse({ status: 200, description: 'Return all payments.' })
+  @ApiResponse({ status: 200, description: 'Return all payments' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Forbidden - Insufficient permissions' })
   async findAll() {
     return this.paymentService.findAll();
   }

@@ -58,7 +58,7 @@ describe('LearningModuleService', () => {
 
   describe('create', () => {
     it('should upload file and create module', async () => {
-      const dto = { title: 'JS Basics', subDivisionId: 'sub-1' };
+      const dto = { title: 'JS Basics', subDivisionId: 'sub-1', file: undefined };
       const file = { originalname: 'test.pdf' } as any;
       mockStorage.uploadFile.mockResolvedValue('http://cloud.com/test.pdf');
       mockPrismaService.learningModule.create.mockResolvedValue({

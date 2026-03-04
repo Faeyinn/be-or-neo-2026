@@ -3,8 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class GenerateQrDto {
   @ApiProperty({
-    example: 'uuid-timeline-event',
+    example: '550e8400-e29b-41d4-a716-446655440000',
     description: 'The ID of the recruitment timeline event',
+    format: 'uuid',
   })
   @IsNotEmpty()
   @IsUUID()
@@ -12,7 +13,7 @@ export class GenerateQrDto {
 
   @ApiProperty({
     example: 'TOKEN123',
-    description: 'The passcode to be encoded in the QR Code',
+    description: 'The secure passcode to be encoded in the QR code',
     minLength: 6,
   })
   @IsNotEmpty()
