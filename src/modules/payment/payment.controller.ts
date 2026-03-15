@@ -11,6 +11,7 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { GetUser } from '../../common/decorators/get-user.decorator';
 import { UserRole } from '../../../prisma/generated-client/client';
+import { MidtransWebhookDto } from './dto/midtrans-webhook.dto';
 
 @ApiTags('Payment')
 @Controller('payments')
@@ -35,7 +36,7 @@ export class PaymentController {
   @ApiOperation({ summary: 'Public: Midtrans webhook callback' })
   @ApiResponse({ status: 200, description: 'Webhook processed' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  async handleWebhook(@Body() payload: any) {
+  async handleWebhook(@Body() payload: MidtransWebhookDto) {
     return this.paymentService.handleWebhook(payload);
   }
 

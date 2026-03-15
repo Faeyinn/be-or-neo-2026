@@ -1,24 +1,36 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../common/services/prisma.service';
 import {
   PaymentStatus,
   PaymentProvider,
 } from '../../../prisma/generated-client/client';
+import { MidtransWebhookDto } from './dto/midtrans-webhook.dto';
+import * as crypto from 'crypto';
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
 const midtransClient = require('midtrans-client');
 
 @Injectable()
 export class PaymentService {
   private readonly logger = new Logger(PaymentService.name);
-
   private readonly snap: any;
+  private readonly REGISTRATION_FEE = 50000;
 
-  constructor(private readonly prisma: PrismaService) {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
     this.snap = new midtransClient.Snap({
-      isProduction: process.env.MIDTRANS_IS_PRODUCTION === 'true',
-      serverKey: process.env.MIDTRANS_SERVER_KEY,
-      clientKey: process.env.MIDTRANS_CLIENT_KEY,
+      isProduction:
+        this.configService.get<string>('MIDTRANS_IS_PRODUCTION') === 'true',
+      serverKey: this.configService.get<string>('MIDTRANS_SERVER_KEY'),
+      clientKey: this.configService.get<string>('MIDTRANS_CLIENT_KEY'),
     });
   }
 
@@ -71,7 +83,7 @@ export class PaymentService {
 
     // 3. Prepare Midtrans transaction
     const orderId = `OR-NEO-${Date.now()}-${userId.substring(0, 8)}`;
-    const amount = 50000; // Biaya pendaftaran default
+    const amount = this.REGISTRATION_FEE;
 
     const parameter = {
       transaction_details: {
@@ -84,9 +96,9 @@ export class PaymentService {
         phone: user.profile.whatsappNumber,
       },
       callbacks: {
-        finish: `${process.env.FRONTEND_URL}/dashboard`,
-        error: `${process.env.FRONTEND_URL}/dashboard`,
-        pending: `${process.env.FRONTEND_URL}/dashboard`,
+        finish: `${this.configService.get<string>('FRONTEND_URL')}/dashboard`,
+        error: `${this.configService.get<string>('FRONTEND_URL')}/dashboard`,
+        pending: `${this.configService.get<string>('FRONTEND_URL')}/dashboard`,
       },
     };
 
@@ -120,21 +132,39 @@ export class PaymentService {
     }
   }
 
-  async handleWebhook(payload: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { order_id, transaction_status, fraud_status } = payload;
+  async handleWebhook(payload: MidtransWebhookDto) {
+    const {
+      order_id,
+      transaction_status,
+      fraud_status,
+      status_code,
+      gross_amount,
+      signature_key,
+    } = payload;
 
     this.logger.log(
-      `Received Midtrans webhook: ${order_id as string} - ${transaction_status as string}`,
+      `Received Midtrans webhook: ${order_id} - ${transaction_status}`,
     );
 
+    // Verify Signature Key
+    const serverKey = this.configService.get<string>('MIDTRANS_SERVER_KEY');
+    const hash = crypto
+      .createHash('sha512')
+      .update(`${order_id}${status_code}${gross_amount}${serverKey}`)
+      .digest('hex');
+
+    if (hash !== signature_key) {
+      this.logger.error(`Invalid Midtrans signature for order: ${order_id}`);
+      throw new UnauthorizedException('Invalid signature');
+    }
+
     const payment = await this.prisma.payment.findUnique({
-      where: { id: order_id as string },
+      where: { id: order_id },
     });
 
     if (!payment) {
-      this.logger.warn(`Payment with order_id ${order_id as string} not found`);
-      return;
+      this.logger.warn(`Payment with order_id ${order_id} not found`);
+      throw new BadRequestException('Payment not found');
     }
 
     let status: PaymentStatus = payment.status;
@@ -157,13 +187,18 @@ export class PaymentService {
       status = PaymentStatus.PENDING;
     }
 
-    return this.prisma.payment.update({
-      where: { id: order_id as string },
-      data: {
-        status,
-        paidAt: status === PaymentStatus.PAID ? new Date() : null,
-      },
-    });
+    try {
+      return await this.prisma.payment.update({
+        where: { id: order_id },
+        data: {
+          status,
+          paidAt: status === PaymentStatus.PAID ? new Date() : null,
+        },
+      });
+    } catch (error) {
+      this.logger.error(`Failed to update payment status for ${order_id}`, error);
+      throw new BadRequestException('Failed to update payment status');
+    }
   }
 
   async findAll() {

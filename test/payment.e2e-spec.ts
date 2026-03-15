@@ -103,11 +103,25 @@ describe('Payment (e2e)', () => {
       const payment = await prisma.payment.findFirst({ where: { userId } });
       if (!payment) throw new Error('Payment not found');
 
+      const status_code = '200';
+      const gross_amount = payment.amount.toString();
+      const serverKey = process.env.MIDTRANS_SERVER_KEY || '';
+      
+      const crypto = require('crypto');
+      const signature_key = crypto
+        .createHash('sha512')
+        .update(`${payment.id}${status_code}${gross_amount}${serverKey}`)
+        .digest('hex');
+
       await request(app.getHttpServer())
         .post('/api/payments/webhook')
         .send({
           order_id: payment.id,
           transaction_status: 'settlement',
+          fraud_status: 'accept',
+          status_code,
+          gross_amount,
+          signature_key,
         })
         .expect(201);
 
