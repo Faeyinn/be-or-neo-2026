@@ -32,19 +32,19 @@ async function bootstrap() {
         description: 'Enter JWT token',
         in: 'header',
       },
-      'JWT-auth', // This name must match @ApiBearerAuth('JWT-auth')
+      'JWT-auth',
     )
-    .addTag('Authentication', 'User authentication and authorization')
-    .addTag('Profile', 'User profile management')
-    .addTag('Dashboard', 'Recruitment dashboard information')
-    .addTag('Timeline', 'Recruitment process timelines')
-    .addTag('Master Data', 'Departments, Divisions, and Sub-divisions management')
-    .addTag('Learning Module', 'Educational materials and resources')
-    .addTag('Exam', 'Online examination management')
-    .addTag('Assignment', 'Task submissions and management')
-    .addTag('Payment', 'Registration fee and payment verification')
-    .addTag('Verification', 'Admin verification for various submissions')
-    .addTag('Attendance', 'Event attendance tracking')
+    .addTag('Authentication', 'User authentication and session management')
+    .addTag('Profile', 'Personal profile and user identity')
+    .addTag('Verification', 'Document submission and verification process')
+    .addTag('Dashboard', 'Main overview for recruitment progress')
+    .addTag('Timeline', 'Schedule and recruitment milestones')
+    .addTag('Learning Module', 'Educational resources and training materials')
+    .addTag('Exam', 'Online examination and assessment tools')
+    .addTag('Assignment', 'Task management and project submissions')
+    .addTag('Attendance', 'Event presence and check-in system')
+    .addTag('Payment', 'Registration fees and billing verification')
+    .addTag('Master Data', 'Administrative system configurations')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -53,6 +53,8 @@ async function bootstrap() {
       persistAuthorization: true,
       displayRequestDuration: true,
       filter: true,
+      docExpansion: 'none',
+      defaultModelsExpandDepth: -1,
     },
     customSiteTitle: 'OR Neo Telemetri 2026 API Docs',
   });

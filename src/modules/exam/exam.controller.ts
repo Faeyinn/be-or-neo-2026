@@ -31,7 +31,7 @@ export class ExamController {
   constructor(private readonly examService: ExamService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get all exams' })
+  @ApiOperation({ summary: 'Admin: Get all exams' })
   @ApiResponse({ status: 200, description: 'Exams successfully retrieved' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
@@ -43,7 +43,7 @@ export class ExamController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get an exam by ID with questions' })
+  @ApiOperation({ summary: 'Admin: Get an exam by ID with questions' })
   @ApiResponse({ status: 200, description: 'Exam successfully retrieved' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
@@ -56,7 +56,7 @@ export class ExamController {
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create a new exam' })
+  @ApiOperation({ summary: 'Admin: Create a new exam' })
   @ApiResponse({ status: 201, description: 'Exam successfully created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -69,7 +69,7 @@ export class ExamController {
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update exam details' })
+  @ApiOperation({ summary: 'Admin: Update exam details' })
   @ApiResponse({ status: 200, description: 'Exam successfully updated' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -83,7 +83,7 @@ export class ExamController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete an exam' })
+  @ApiOperation({ summary: 'Admin: Delete an exam' })
   @ApiResponse({ status: 200, description: 'Exam successfully deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
@@ -96,7 +96,7 @@ export class ExamController {
   }
 
   @Post(':id/questions')
-  @ApiOperation({ summary: 'Add a question to an exam' })
+  @ApiOperation({ summary: 'Admin: Add a question to an exam' })
   @ApiResponse({ status: 201, description: 'Question successfully added' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -110,7 +110,7 @@ export class ExamController {
   }
 
   @Delete('questions/:questionId')
-  @ApiOperation({ summary: 'Delete a question' })
+  @ApiOperation({ summary: 'Admin: Delete a question' })
   @ApiResponse({ status: 200, description: 'Question successfully deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({

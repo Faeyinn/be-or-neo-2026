@@ -37,7 +37,7 @@ export class MasterDataController {
 
   // --- Department ---
   @Post('departments')
-  @ApiOperation({ summary: 'Create new department' })
+  @ApiOperation({ summary: 'Admin: Create new department' })
   @ApiResponse({ status: 201, description: 'Department successfully created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -50,7 +50,7 @@ export class MasterDataController {
   }
 
   @Patch('departments/:id')
-  @ApiOperation({ summary: 'Update department' })
+  @ApiOperation({ summary: 'Admin: Update department' })
   @ApiResponse({ status: 200, description: 'Department successfully updated' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -64,7 +64,7 @@ export class MasterDataController {
   }
 
   @Delete('departments/:id')
-  @ApiOperation({ summary: 'Delete department' })
+  @ApiOperation({ summary: 'Admin: Delete department' })
   @ApiResponse({ status: 200, description: 'Department successfully deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
@@ -78,7 +78,7 @@ export class MasterDataController {
 
   // --- Division ---
   @Post('divisions')
-  @ApiOperation({ summary: 'Create new division' })
+  @ApiOperation({ summary: 'Admin: Create new division' })
   @ApiResponse({ status: 201, description: 'Division successfully created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -91,7 +91,7 @@ export class MasterDataController {
   }
 
   @Patch('divisions/:id')
-  @ApiOperation({ summary: 'Update division' })
+  @ApiOperation({ summary: 'Admin: Update division' })
   @ApiResponse({ status: 200, description: 'Division successfully updated' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -105,7 +105,7 @@ export class MasterDataController {
   }
 
   @Delete('divisions/:id')
-  @ApiOperation({ summary: 'Delete division' })
+  @ApiOperation({ summary: 'Admin: Delete division' })
   @ApiResponse({ status: 200, description: 'Division successfully deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
@@ -119,7 +119,7 @@ export class MasterDataController {
 
   // --- SubDivision ---
   @Post('sub-divisions')
-  @ApiOperation({ summary: 'Create new sub-division' })
+  @ApiOperation({ summary: 'Admin: Create new sub-division' })
   @ApiResponse({
     status: 201,
     description: 'Sub-division successfully created',
@@ -135,7 +135,7 @@ export class MasterDataController {
   }
 
   @Patch('sub-divisions/:id')
-  @ApiOperation({ summary: 'Update sub-division' })
+  @ApiOperation({ summary: 'Admin: Update sub-division' })
   @ApiResponse({
     status: 200,
     description: 'Sub-division successfully updated',
@@ -155,7 +155,7 @@ export class MasterDataController {
   }
 
   @Delete('sub-divisions/:id')
-  @ApiOperation({ summary: 'Delete sub-division' })
+  @ApiOperation({ summary: 'Admin: Delete sub-division' })
   @ApiResponse({
     status: 200,
     description: 'Sub-division successfully deleted',

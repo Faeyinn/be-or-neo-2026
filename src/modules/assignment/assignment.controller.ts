@@ -41,7 +41,7 @@ export class AssignmentController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Create new assignment' })
+  @ApiOperation({ summary: 'Admin: Create new assignment' })
   @ApiResponse({ status: 201, description: 'Assignment successfully created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -55,7 +55,7 @@ export class AssignmentController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get all assignments (Admin) or by subdivision (User)',
+    summary: 'Get all assignments (Admin) or user assignments (User)',
   })
   @ApiResponse({
     status: 200,
@@ -70,7 +70,7 @@ export class AssignmentController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a single assignment' })
+  @ApiOperation({ summary: 'Get a single assignment details' })
   @ApiResponse({
     status: 200,
     description: 'Assignment successfully retrieved',
@@ -84,7 +84,7 @@ export class AssignmentController {
   @Patch(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Update assignment' })
+  @ApiOperation({ summary: 'Admin: Update assignment' })
   @ApiResponse({ status: 200, description: 'Assignment successfully updated' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -100,7 +100,7 @@ export class AssignmentController {
   @Delete(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Delete assignment' })
+  @ApiOperation({ summary: 'Admin: Delete assignment' })
   @ApiResponse({ status: 200, description: 'Assignment successfully deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({
@@ -149,7 +149,7 @@ export class AssignmentController {
   @Get(':id/submissions')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Get all submissions for an assignment' })
+  @ApiOperation({ summary: 'Admin: Get all submissions for an assignment' })
   @ApiResponse({
     status: 200,
     description: 'Submissions successfully retrieved',
@@ -167,7 +167,7 @@ export class AssignmentController {
   @Patch('submissions/:submissionId/score')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Score a submission' })
+  @ApiOperation({ summary: 'Admin: Score a submission' })
   @ApiResponse({ status: 200, description: 'Submission successfully scored' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })

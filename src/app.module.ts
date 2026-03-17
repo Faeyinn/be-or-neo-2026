@@ -14,6 +14,7 @@ import { ExamModule } from './modules/exam/exam.module';
 import { LearningModuleModule } from './modules/learning-module/learning-module.module';
 import { AssignmentModule } from './modules/assignment/assignment.module';
 import { MasterDataModule } from './modules/master-data/master-data.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MasterDataModule } from './modules/master-data/master-data.module';
     LearningModuleModule,
     AssignmentModule,
     MasterDataModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

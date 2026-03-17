@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PaymentService } from './payment.service';
 import { PrismaService } from '../../common/services/prisma.service';
+import { ConfigService } from '@nestjs/config';
 import { BadRequestException } from '@nestjs/common';
 import { PaymentStatus } from '../../../prisma/generated-client/client';
 
@@ -30,6 +31,14 @@ describe('PaymentService', () => {
     },
   };
 
+  const mockConfigService = {
+    get: jest.fn((key: string) => {
+      if (key === 'MIDTRANS_SERVER_KEY') return 'mock-server-key';
+      if (key === 'FRONTEND_URL') return 'http://localhost:3000';
+      return null;
+    }),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -37,6 +46,10 @@ describe('PaymentService', () => {
         {
           provide: PrismaService,
           useValue: mockPrismaService,
+        },
+        {
+          provide: ConfigService,
+          useValue: mockConfigService,
         },
       ],
     }).compile();
@@ -90,19 +103,34 @@ describe('PaymentService', () => {
 
   describe('handleWebhook', () => {
     it('should update status to PAID on settlement', async () => {
+      const orderId = 'ORDER-1';
+      const statusCode = '200';
+      const grossAmount = '50000.00';
+      const serverKey = 'mock-server-key';
+      
+      const crypto = require('crypto');
+      const signatureKey = crypto
+        .createHash('sha512')
+        .update(`${orderId}${statusCode}${grossAmount}${serverKey}`)
+        .digest('hex');
+
       const payload: any = {
-        order_id: 'ORDER-1',
+        order_id: orderId,
+        status_code: statusCode,
+        gross_amount: grossAmount,
         transaction_status: 'settlement',
+        signature_key: signatureKey,
       };
+
       mockPrismaService.payment.findUnique.mockResolvedValue({
-        id: 'ORDER-1',
+        id: orderId,
         status: 'PENDING',
       });
 
       await service.handleWebhook(payload);
 
       expect(prisma.payment.update).toHaveBeenCalledWith({
-        where: { id: 'ORDER-1' },
+        where: { id: orderId },
         data: expect.objectContaining({ status: PaymentStatus.PAID }),
       });
     });
