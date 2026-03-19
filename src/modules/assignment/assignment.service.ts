@@ -16,10 +16,22 @@ export class AssignmentService {
 
   // --- Assignment Management (Admin) ---
 
-  async create(dto: CreateAssignmentDto, adminId: string) {
+  async create(
+    dto: CreateAssignmentDto,
+    adminId: string,
+    file?: Express.Multer.File,
+  ) {
+    let fileUrl: string | null = null;
+    if (file) {
+      fileUrl = await this.storage.uploadFile(file, 'assignment-tasks');
+    }
+
     return this.prisma.assignment.create({
       data: {
-        ...dto,
+        title: dto.title,
+        description: dto.description,
+        subDivisionId: dto.subDivisionId,
+        fileUrl,
         dueAt: new Date(dto.dueAt),
         createdByAdminId: adminId,
       },
@@ -99,12 +111,21 @@ export class AssignmentService {
     return assignment;
   }
 
-  async update(id: string, dto: UpdateAssignmentDto) {
-    await this.findOne(id);
+  async update(id: string, dto: UpdateAssignmentDto, file?: Express.Multer.File) {
+    const assignment = await this.findOne(id);
+
+    let fileUrl = assignment.fileUrl;
+    if (file) {
+      fileUrl = await this.storage.uploadFile(file, 'assignment-tasks');
+    }
+
     return this.prisma.assignment.update({
       where: { id },
       data: {
-        ...dto,
+        title: dto.title,
+        description: dto.description,
+        subDivisionId: dto.subDivisionId,
+        fileUrl,
         dueAt: dto.dueAt ? new Date(dto.dueAt) : undefined,
       },
     });

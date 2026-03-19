@@ -41,7 +41,13 @@ export class AssignmentController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Admin: Create new assignment' })
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary: 'Admin: Create new assignment',
+    description:
+      'Creates a new recruitment assignment for a specific sub-division. ' +
+      'Admins can optionally upload a file (e.g., PDF instructions or templates) which will be stored on Cloudinary.',
+  })
   @ApiResponse({ status: 201, description: 'Assignment successfully created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -49,13 +55,21 @@ export class AssignmentController {
     status: 403,
     description: 'Forbidden - Insufficient permissions',
   })
-  create(@Body() dto: CreateAssignmentDto, @GetUser('id') adminId: string) {
-    return this.assignmentService.create(dto, adminId);
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() dto: CreateAssignmentDto,
+    @GetUser('id') adminId: string,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.assignmentService.create(dto, adminId, file);
   }
 
   @Get()
   @ApiOperation({
     summary: 'Get all assignments (Admin) or user assignments (User)',
+    description:
+      'Admins receive all assignments in the system. ' +
+      'Regular users receive only assignments for their chosen sub-division, provided they have submitted their exam.',
   })
   @ApiResponse({
     status: 200,
@@ -70,7 +84,11 @@ export class AssignmentController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a single assignment details' })
+  @ApiOperation({
+    summary: 'Get a single assignment details',
+    description:
+      'Retrieves the full details of an assignment, including its file URL and sub-division information.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Assignment successfully retrieved',
@@ -84,7 +102,12 @@ export class AssignmentController {
   @Patch(':id')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Admin: Update assignment' })
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary: 'Admin: Update assignment',
+    description:
+      'Updates an existing assignment. If a new file is uploaded, it will replace the previous one on Cloudinary.',
+  })
   @ApiResponse({ status: 200, description: 'Assignment successfully updated' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -93,8 +116,13 @@ export class AssignmentController {
     description: 'Forbidden - Insufficient permissions',
   })
   @ApiResponse({ status: 404, description: 'Assignment not found' })
-  update(@Param('id') id: string, @Body() dto: UpdateAssignmentDto) {
-    return this.assignmentService.update(id, dto);
+  @UseInterceptors(FileInterceptor('file'))
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateAssignmentDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.assignmentService.update(id, dto, file);
   }
 
   @Delete(':id')

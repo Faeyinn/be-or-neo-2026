@@ -58,20 +58,103 @@ describe('AssignmentService', () => {
   });
 
   describe('create', () => {
-    it('should create an assignment', async () => {
-      const dto = {
-        title: 'JS Task',
-        dueAt: new Date().toISOString(),
-        subDivisionId: 'sub-1',
-      };
+    const dto = {
+      title: 'JS Task',
+      description: 'JS Description',
+      dueAt: new Date().toISOString(),
+      subDivisionId: 'sub-1',
+    };
+    const adminId = 'admin-1';
+
+    it('should create an assignment without file', async () => {
       mockPrismaService.assignment.create.mockResolvedValue({
         id: 'asg-1',
         ...dto,
+        fileUrl: null,
+        createdByAdminId: adminId,
       });
 
-      const result = await service.create(dto, 'admin-1');
+      const result = await service.create(dto, adminId);
       expect(result.id).toBe('asg-1');
+      expect(result.fileUrl).toBeNull();
+      expect(prisma.assignment.create).toHaveBeenCalledWith({
+        data: {
+          title: dto.title,
+          description: dto.description,
+          subDivisionId: dto.subDivisionId,
+          fileUrl: null,
+          dueAt: new Date(dto.dueAt),
+          createdByAdminId: adminId,
+        },
+      });
+      expect(storage.uploadFile).not.toHaveBeenCalled();
+    });
+
+    it('should create an assignment with file upload', async () => {
+      const file = { originalname: 'task.pdf' } as any;
+      mockStorage.uploadFile.mockResolvedValue('http://cloudinary.com/task.pdf');
+      mockPrismaService.assignment.create.mockResolvedValue({
+        id: 'asg-1',
+        ...dto,
+        fileUrl: 'http://cloudinary.com/task.pdf',
+        createdByAdminId: adminId,
+      });
+
+      const result = await service.create(dto, adminId, file);
+      expect(result.id).toBe('asg-1');
+      expect(result.fileUrl).toBe('http://cloudinary.com/task.pdf');
+      expect(storage.uploadFile).toHaveBeenCalledWith(file, 'assignment-tasks');
       expect(prisma.assignment.create).toHaveBeenCalled();
+    });
+  });
+
+  describe('update', () => {
+    const asgId = 'asg-1';
+    const dto = {
+      title: 'Updated Task',
+      subDivisionId: 'sub-1',
+    };
+
+    it('should update assignment and keep existing fileUrl if no new file', async () => {
+      mockPrismaService.assignment.findUnique.mockResolvedValue({
+        id: asgId,
+        fileUrl: 'old-url',
+      });
+      mockPrismaService.assignment.update.mockResolvedValue({
+        id: asgId,
+        ...dto,
+        fileUrl: 'old-url',
+      });
+
+      const result = await service.update(asgId, dto);
+      expect(result.fileUrl).toBe('old-url');
+      expect(prisma.assignment.update).toHaveBeenCalledWith({
+        where: { id: asgId },
+        data: expect.objectContaining({ fileUrl: 'old-url' }),
+      });
+      expect(storage.uploadFile).not.toHaveBeenCalled();
+    });
+
+    it('should update assignment and upload new file if provided', async () => {
+      const file = { originalname: 'new-task.pdf' } as any;
+      mockPrismaService.assignment.findUnique.mockResolvedValue({
+        id: asgId,
+        fileUrl: 'old-url',
+      });
+      mockStorage.uploadFile.mockResolvedValue('new-url');
+      mockPrismaService.assignment.update.mockResolvedValue({
+        id: asgId,
+        ...dto,
+        fileUrl: 'new-url',
+      });
+
+      const result = await service.update(asgId, dto, file);
+      expect(result.fileUrl).toBe('new-url');
+      expect(storage.uploadFile).toHaveBeenCalledWith(file, 'assignment-tasks');
+      expect(prisma.assignment.update).toHaveBeenCalledWith({
+        where: { id: asgId },
+        data: expect.objectContaining({ fileUrl: 'new-url' }),
+      });
     });
   });
 

@@ -1941,6 +1941,7 @@ export const AssignmentScalarFieldEnum = {
   subDivisionId: 'subDivisionId',
   title: 'title',
   description: 'description',
+  fileUrl: 'fileUrl',
   dueAt: 'dueAt',
   createdByAdminId: 'createdByAdminId',
   createdAt: 'createdAt',

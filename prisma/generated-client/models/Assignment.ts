@@ -29,6 +29,7 @@ export type AssignmentMinAggregateOutputType = {
   subDivisionId: string | null
   title: string | null
   description: string | null
+  fileUrl: string | null
   dueAt: Date | null
   createdByAdminId: string | null
   createdAt: Date | null
@@ -40,6 +41,7 @@ export type AssignmentMaxAggregateOutputType = {
   subDivisionId: string | null
   title: string | null
   description: string | null
+  fileUrl: string | null
   dueAt: Date | null
   createdByAdminId: string | null
   createdAt: Date | null
@@ -51,6 +53,7 @@ export type AssignmentCountAggregateOutputType = {
   subDivisionId: number
   title: number
   description: number
+  fileUrl: number
   dueAt: number
   createdByAdminId: number
   createdAt: number
@@ -64,6 +67,7 @@ export type AssignmentMinAggregateInputType = {
   subDivisionId?: true
   title?: true
   description?: true
+  fileUrl?: true
   dueAt?: true
   createdByAdminId?: true
   createdAt?: true
@@ -75,6 +79,7 @@ export type AssignmentMaxAggregateInputType = {
   subDivisionId?: true
   title?: true
   description?: true
+  fileUrl?: true
   dueAt?: true
   createdByAdminId?: true
   createdAt?: true
@@ -86,6 +91,7 @@ export type AssignmentCountAggregateInputType = {
   subDivisionId?: true
   title?: true
   description?: true
+  fileUrl?: true
   dueAt?: true
   createdByAdminId?: true
   createdAt?: true
@@ -170,6 +176,7 @@ export type AssignmentGroupByOutputType = {
   subDivisionId: string
   title: string
   description: string | null
+  fileUrl: string | null
   dueAt: Date
   createdByAdminId: string
   createdAt: Date
@@ -202,6 +209,7 @@ export type AssignmentWhereInput = {
   subDivisionId?: Prisma.StringFilter<"Assignment"> | string
   title?: Prisma.StringFilter<"Assignment"> | string
   description?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Assignment"> | string | null
   dueAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   createdByAdminId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -216,6 +224,7 @@ export type AssignmentOrderByWithRelationInput = {
   subDivisionId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   dueAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -233,6 +242,7 @@ export type AssignmentWhereUniqueInput = Prisma.AtLeast<{
   subDivisionId?: Prisma.StringFilter<"Assignment"> | string
   title?: Prisma.StringFilter<"Assignment"> | string
   description?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Assignment"> | string | null
   dueAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   createdByAdminId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -247,6 +257,7 @@ export type AssignmentOrderByWithAggregationInput = {
   subDivisionId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   dueAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -264,6 +275,7 @@ export type AssignmentScalarWhereWithAggregatesInput = {
   subDivisionId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   title?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableWithAggregatesFilter<"Assignment"> | string | null
   dueAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
   createdByAdminId?: Prisma.StringWithAggregatesFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assignment"> | Date | string
@@ -274,6 +286,7 @@ export type AssignmentCreateInput = {
   id?: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -287,6 +300,7 @@ export type AssignmentUncheckedCreateInput = {
   subDivisionId: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdByAdminId: string
   createdAt?: Date | string
@@ -298,6 +312,7 @@ export type AssignmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -311,6 +326,7 @@ export type AssignmentUncheckedUpdateInput = {
   subDivisionId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,6 +339,7 @@ export type AssignmentCreateManyInput = {
   subDivisionId: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdByAdminId: string
   createdAt?: Date | string
@@ -333,6 +350,7 @@ export type AssignmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -343,6 +361,7 @@ export type AssignmentUncheckedUpdateManyInput = {
   subDivisionId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -364,6 +383,7 @@ export type AssignmentCountOrderByAggregateInput = {
   subDivisionId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   dueAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -375,6 +395,7 @@ export type AssignmentMaxOrderByAggregateInput = {
   subDivisionId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   dueAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -386,6 +407,7 @@ export type AssignmentMinOrderByAggregateInput = {
   subDivisionId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
   dueAt?: Prisma.SortOrder
   createdByAdminId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -499,6 +521,7 @@ export type AssignmentCreateWithoutCreatedByAdminInput = {
   id?: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -511,6 +534,7 @@ export type AssignmentUncheckedCreateWithoutCreatedByAdminInput = {
   subDivisionId: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -551,6 +575,7 @@ export type AssignmentScalarWhereInput = {
   subDivisionId?: Prisma.StringFilter<"Assignment"> | string
   title?: Prisma.StringFilter<"Assignment"> | string
   description?: Prisma.StringNullableFilter<"Assignment"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"Assignment"> | string | null
   dueAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
   createdByAdminId?: Prisma.StringFilter<"Assignment"> | string
   createdAt?: Prisma.DateTimeFilter<"Assignment"> | Date | string
@@ -561,6 +586,7 @@ export type AssignmentCreateWithoutSubDivisionInput = {
   id?: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -572,6 +598,7 @@ export type AssignmentUncheckedCreateWithoutSubDivisionInput = {
   id?: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdByAdminId: string
   createdAt?: Date | string
@@ -609,6 +636,7 @@ export type AssignmentCreateWithoutSubmissionsInput = {
   id?: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -621,6 +649,7 @@ export type AssignmentUncheckedCreateWithoutSubmissionsInput = {
   subDivisionId: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdByAdminId: string
   createdAt?: Date | string
@@ -647,6 +676,7 @@ export type AssignmentUpdateWithoutSubmissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -659,6 +689,7 @@ export type AssignmentUncheckedUpdateWithoutSubmissionsInput = {
   subDivisionId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -670,6 +701,7 @@ export type AssignmentCreateManyCreatedByAdminInput = {
   subDivisionId: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -679,6 +711,7 @@ export type AssignmentUpdateWithoutCreatedByAdminInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -691,6 +724,7 @@ export type AssignmentUncheckedUpdateWithoutCreatedByAdminInput = {
   subDivisionId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -702,6 +736,7 @@ export type AssignmentUncheckedUpdateManyWithoutCreatedByAdminInput = {
   subDivisionId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -711,6 +746,7 @@ export type AssignmentCreateManySubDivisionInput = {
   id?: string
   title: string
   description?: string | null
+  fileUrl?: string | null
   dueAt: Date | string
   createdByAdminId: string
   createdAt?: Date | string
@@ -721,6 +757,7 @@ export type AssignmentUpdateWithoutSubDivisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -732,6 +769,7 @@ export type AssignmentUncheckedUpdateWithoutSubDivisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -743,6 +781,7 @@ export type AssignmentUncheckedUpdateManyWithoutSubDivisionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dueAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -785,6 +824,7 @@ export type AssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   subDivisionId?: boolean
   title?: boolean
   description?: boolean
+  fileUrl?: boolean
   dueAt?: boolean
   createdByAdminId?: boolean
   createdAt?: boolean
@@ -800,6 +840,7 @@ export type AssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   subDivisionId?: boolean
   title?: boolean
   description?: boolean
+  fileUrl?: boolean
   dueAt?: boolean
   createdByAdminId?: boolean
   createdAt?: boolean
@@ -813,6 +854,7 @@ export type AssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   subDivisionId?: boolean
   title?: boolean
   description?: boolean
+  fileUrl?: boolean
   dueAt?: boolean
   createdByAdminId?: boolean
   createdAt?: boolean
@@ -826,13 +868,14 @@ export type AssignmentSelectScalar = {
   subDivisionId?: boolean
   title?: boolean
   description?: boolean
+  fileUrl?: boolean
   dueAt?: boolean
   createdByAdminId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subDivisionId" | "title" | "description" | "dueAt" | "createdByAdminId" | "createdAt" | "updatedAt", ExtArgs["result"]["assignment"]>
+export type AssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subDivisionId" | "title" | "description" | "fileUrl" | "dueAt" | "createdByAdminId" | "createdAt" | "updatedAt", ExtArgs["result"]["assignment"]>
 export type AssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subDivision?: boolean | Prisma.SubDivisionDefaultArgs<ExtArgs>
   createdByAdmin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -860,6 +903,7 @@ export type $AssignmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     subDivisionId: string
     title: string
     description: string | null
+    fileUrl: string | null
     dueAt: Date
     createdByAdminId: string
     createdAt: Date
@@ -1294,6 +1338,7 @@ export interface AssignmentFieldRefs {
   readonly subDivisionId: Prisma.FieldRef<"Assignment", 'String'>
   readonly title: Prisma.FieldRef<"Assignment", 'String'>
   readonly description: Prisma.FieldRef<"Assignment", 'String'>
+  readonly fileUrl: Prisma.FieldRef<"Assignment", 'String'>
   readonly dueAt: Prisma.FieldRef<"Assignment", 'DateTime'>
   readonly createdByAdminId: Prisma.FieldRef<"Assignment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Assignment", 'DateTime'>

@@ -337,6 +337,7 @@ model Assignment {
   subDivisionId    String   @map("sub_division_id")
   title            String   @db.VarChar(255)
   description      String?  @db.Text
+  fileUrl          String?  @map("file_url") @db.Text
   dueAt            DateTime @map("due_at")
   createdByAdminId String   @map("created_by_admin_id")
   createdAt        DateTime @default(now()) @map("created_at")

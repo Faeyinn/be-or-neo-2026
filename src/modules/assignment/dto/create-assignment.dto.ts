@@ -41,4 +41,13 @@ export class CreateAssignmentDto {
   @IsUUID()
   @IsNotEmpty()
   subDivisionId: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'The assignment task file (PDF, template, etc.)',
+    required: false,
+  })
+  @IsOptional()
+  file?: any;
 }
